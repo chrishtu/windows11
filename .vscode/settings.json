@@ -1,0 +1,8 @@
+{
+  "css.validate": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "workbench.editorAssociations": {},
+  "svg.preview.background": "custom"
+}

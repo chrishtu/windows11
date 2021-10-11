@@ -1,0 +1,112 @@
+.app-photos {
+  background-color: #000;
+}
+
+.app-photos video {
+  outline: 0;
+}
+
+.video-overlays {
+  transition: opacity .3s var(--animation-timing-function);
+}
+
+.video-overlays.show {
+  opacity: 1;
+}
+
+.video-overlays.hide {
+  opacity: 0;
+  transition-delay: 2.5s;
+}
+
+.video-overlay {
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+}
+
+.video-overlay-top {
+  top: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .6) 100%);
+}
+
+.video-overlay-bottom {
+  bottom: 0;
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .8) 100%); */
+}
+
+/* Action Center */
+
+.action-center {
+  position: fixed;
+  right: 10px;
+  bottom: 50px;
+  width: 340px;
+  padding: 20px;
+  animation-name: slideLeft;
+}
+
+.action-center-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+.action-center-button {
+  height: 80px;
+  color: var(--primary-text-color);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.action-center-button-icon {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--box-border-radius);
+  background: var(--button-bg-color);
+}
+
+.action-center-button-icon:hover {
+  background: var(--button-bg-color-hover);
+}
+
+.action-center-button.active .action-center-button-icon {
+  background: var(--blue-color);
+}
+
+.action-center-button.active svg:not(.no-stroke)  {
+  stroke: #fff !important;
+}
+
+.action-center svg {
+  width: 20px;
+  height: 20px;
+}
+
+.action-center-button-text {
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-center-sliders {
+  margin-top: 20px;
+}
+
+.action-center-slider {
+  padding: 10px 0;
+}
+
+.action-center-slider-icon {
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+}
