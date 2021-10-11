@@ -2,3 +2,4 @@
 .DS_Store
 node_modules
 dist
+public/windows11.cjs.production.min.js
