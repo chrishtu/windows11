@@ -47,44 +47,48 @@ const Settings = (appInfo: IAppInfo, _args?: any) => {
     return createElement('div', {
       className: 'w-full h-full p-0-20 scrollable'
     },
-      [
-        darkThemeCheckbox.element,
-        transparencyCheckbox.element,
-        nightlightCheckbox.element,
-        createElement('div', {
-          className: 'w-full divider divider-horizontal',
-          style: {
-            height: '1px',
-            backgroundColor: 'var(--border-color)'
-          }
-        }),
-        createElement('div', {
-          className: 'w-full background-selector'
-        },
-          [
-            createElement('label', {}, 'Background Image'),
-            createElement('div', {
-              className: 'w-full background-items'
-            },
-              wallpapers.map(image => createElement('div', {
-                className: 'background-item'
+      createElement('div', {
+        className: 'setting-inner'
+      },
+        [
+          darkThemeCheckbox.element,
+          transparencyCheckbox.element,
+          nightlightCheckbox.element,
+          createElement('div', {
+            className: 'w-full divider divider-horizontal',
+            style: {
+              height: '1px',
+              backgroundColor: 'var(--border-color)'
+            }
+          }),
+          createElement('div', {
+            className: 'w-full background-selector'
+          },
+            [
+              createElement('label', {}, 'Background Image'),
+              createElement('div', {
+                className: 'w-full background-items'
               },
-                createElement('div', {
-                  className: 'background-item-inner w-full h-full'
+                wallpapers.map(image => createElement('div', {
+                  className: 'background-item'
                 },
                   createElement('div', {
-                    className: 'background-item-image w-full h-full',
-                    style: {
-                      backgroundImage: `url("${image.thumbnailPath}")`
-                    },
-                    onclick: changeBackGround.bind(null, image.path)
-                  })
-                )
-              ))
-            )
-          ]
-        )
-      ]
+                    className: 'background-item-inner w-full h-full'
+                  },
+                    createElement('div', {
+                      className: 'background-item-image w-full h-full',
+                      style: {
+                        backgroundImage: `url("${image.thumbnailPath}")`
+                      },
+                      onclick: changeBackGround.bind(null, image.path)
+                    })
+                  )
+                ))
+              )
+            ]
+          )
+        ]
+      )
     )
   }
 

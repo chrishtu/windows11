@@ -1,3 +1,7 @@
+/* Settings */
+
+/* Photos */
+
 .app-photos {
   background-color: #000;
 }
@@ -80,7 +84,7 @@
   background: var(--blue-color);
 }
 
-.action-center-button.active svg:not(.no-stroke)  {
+.action-center-button.active svg:not(.no-stroke) {
   stroke: #fff !important;
 }
 

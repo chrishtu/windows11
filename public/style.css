@@ -3,16 +3,95 @@
   user-select: none;
 }
 
+:root {
+  --blue-color: #3170f5;
+  --accent-color: var(--blue-color);
+  --box-blur: 20px;
+  --box-border-radius: 5px;
+  --box-drop-shadow: 0px 3px 10px rgba(0, 0, 0, .5);
+  --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
+  --scrollbar-color: #888;
+}
+
+:root.dark {
+  --scrollbar-color: #ddd;
+}
+
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
+  /* background-color: #3170f5; */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #aaa;
+  background-color: var(--scrollbar-color);
   background-clip: content-box;
-  border: 3px solid transparent;
+  border: 4px solid transparent;
   border-radius: 0.625rem;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+/* Buttons */
+
+::-webkit-scrollbar-button:single-button {
+  display: block;
+  background-repeat: no-repeat;
+  border: 0;
+  width: 12px;
+  height: 12px;
+}
+
+/* Up */
+
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAzMiAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDBMMzEuNTg4NSAxOEgwLjQxMTU0M0wxNiAwWiIgZmlsbD0iIzg4ODg4OCIvPgo8L3N2Zz4K");
+  background-size: 8px;
+  background-position: 3px bottom;
+}
+
+.dark ::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAzMiAxOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE2IDBMMzEuNTg4NSAxOEgwLjQxMTU0M0wxNiAwWiIgZmlsbD0iI0RERERERCIvPgo8L3N2Zz4K");
+}
+
+/* Down */
+
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE2IDE4TDMxLjU4OCAwSC40MTNMMTYgMTh6IiBmaWxsPSIjODg4Ii8+PC9zdmc+");
+  background-size: 8px;
+  background-position: 3px top;
+}
+
+.dark *::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMTgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE2IDE4TDMxLjU4OCAwSC40MTNMMTYgMTh6IiBmaWxsPSIjREREIi8+PC9zdmc+");
+}
+
+/* Left */
+
+::-webkit-scrollbar-button:single-button:horizontal {
+  background-size: 4.6px;
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAxOCAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMTZMMTggMC40MTE1NDVMMTggMzEuNTg4NUwwIDE2WiIgZmlsbD0iIzg4ODg4OCIvPgo8L3N2Zz4K");
+  background-position: right 3px;
+}
+
+.dark ::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMTZMMTggLjQxMnYzMS4xNzdMMCAxNnoiIGZpbGw9IiNEREQiLz48L3N2Zz4=");
+}
+
+/* Right */
+
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAxOCAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE4IDE2TDAgMzEuNTg4NUwwIDAuNDExNTQzTDE4IDE2WiIgZmlsbD0iIzg4ODg4OCIvPgo8L3N2Zz4K");
+  background-position: left 3px;
+}
+
+.dark ::-webkit-scrollbar-button:single-button:horizontal:increment {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE4IDE2TDAgMzEuNTg4Vi40MTNMMTggMTZ6IiBmaWxsPSIjREREIi8+PC9zdmc+");
 }
 
 .flex {
@@ -290,15 +369,6 @@ input[type="checkbox"] {
   to {
     transform: scale(1);
   }
-}
-
-:root {
-  --blue-color: #3170f5;
-  --accent-color: var(--blue-color);
-  --box-blur: 20px;
-  --box-border-radius: 5px;
-  --box-drop-shadow: 0px 3px 10px rgba(0, 0, 0, .5);
-  --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
 }
 
 html {
@@ -1415,13 +1485,13 @@ html.glass .taskbar {
   position: absolute;
   width: 4px;
   height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0) 80%, var(--primary-text-color) 100%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0) 80%, var(--primary-text-color) 100%);
   z-index: 0;
   left: 49%;
 }
 
 .outer-clock-face .clock-marking {
-  background: radial-gradient(circle, rgba(255,255,255,0) 85%, var(--primary-text-color) 100%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0) 85%, var(--primary-text-color) 100%);
   width: 1px;
 }
 
