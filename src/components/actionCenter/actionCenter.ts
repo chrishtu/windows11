@@ -1,10 +1,11 @@
 import createElement from "../../createElement";
-import { listenEvent } from "../../event";
+import { listenEvent, triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
+import { createWindow } from "../../proceduce";
 import { getState, setState } from "../../store";
 import { toggleTransparency, toggleTheme } from "../../utils";
 import DesktopScreen from "../DesktopScreen";
-import { airplaneModeIcon, bluetoothIcon, castIcon, darkThemeIcon, locationIcon, moonIcon, nightLightIcon, sunIcon, transparencyIcon, volumeIcon2, wifiIcon } from "../icons/icons";
+import { airplaneModeIcon, batteryIcon, bluetoothIcon, castIcon, darkThemeIcon, locationIcon, moonIcon, nightLightIcon, settingIcon, sunIcon, transparencyIcon, volumeIcon2, wifiIcon } from "../icons/icons";
 import Popup from "../popup/popup";
 import Slider from "../Slider";
 
@@ -177,48 +178,83 @@ function ActionCenter() {
   },
     [
       createElement('div', {
-        className: 'action-center-buttons'
+        className: 'action-center-top'
       },
         [
-          wifiButton.element,
-          bluetoothButton.element,
-          airPlaneModeButton.element,
-          darkThemeButton.element,
-          focusAssistButton.element,
-          locationButton.element,
-          nightLightButton.element,
-          connectButton.element,
-          // projectButton.element,
-          transparencyButton.element,
+          createElement('div', {
+            className: 'action-center-buttons'
+          },
+            [
+              wifiButton.element,
+              bluetoothButton.element,
+              airPlaneModeButton.element,
+              darkThemeButton.element,
+              focusAssistButton.element,
+              locationButton.element,
+              nightLightButton.element,
+              connectButton.element,
+              // projectButton.element,
+              transparencyButton.element,
+            ]
+          ),
+
+          createElement('div', {
+            className: 'action-center-sliders'
+          },
+            [
+              createElement('div', {
+                className: 'action-center-slider w-full flex items-center'
+              },
+                [
+                  createElement('div', {
+                    className: 'action-center-slider-icon',
+                    innerHTML: sunIcon
+                  }),
+                  brightnessSlider.element
+                ]
+              ),
+              createElement('div', {
+                className: 'action-center-slider w-full flex items-center'
+              },
+                [
+                  createElement('div', {
+                    className: 'action-center-slider-icon',
+                    innerHTML: volumeIcon2
+                  }),
+                  volumeSlider.element
+                ]
+              )
+            ]
+          )
         ]
       ),
 
       createElement('div', {
-        className: 'action-center-sliders'
+        className: 'action-center-footer flex items-center'
       },
         [
           createElement('div', {
-            className: 'action-center-slider w-full flex items-center'
+            className: 'action-center-footer-item action-center-batery flex items-center'
           },
             [
               createElement('div', {
-                className: 'action-center-slider-icon',
-                innerHTML: sunIcon
+                className: 'action-center-batery-icon flex items-center',
+                innerHTML: batteryIcon
               }),
-              brightnessSlider.element
+              createElement('div', {
+                className: 'action-center-batery-text',
+              }, '100%')
             ]
           ),
           createElement('div', {
-            className: 'action-center-slider w-full flex items-center'
-          },
-            [
-              createElement('div', {
-                className: 'action-center-slider-icon',
-                innerHTML: volumeIcon2
-              }),
-              volumeSlider.element
-            ]
-          )
+            title: 'Open Settings',
+            className: 'action-center-footer-item action-center-config',
+            innerHTML: settingIcon,
+            onclick: () => {
+              triggerEvent(eventNames.closePopup)
+              createWindow('settings')
+            }
+          })
         ]
       )
     ]

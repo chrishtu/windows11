@@ -5,6 +5,7 @@
     "types"
   ],
   "compilerOptions": {
+    "target": "es5",
     "strictNullChecks": false,
     "module": "esnext",
     "lib": [

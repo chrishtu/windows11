@@ -3,6 +3,7 @@ import { ITitleBar } from "../components/window/titlebar";
 export interface WindowTitleBar {
   title: string
   icon?: string
+  hideIcon?: boolean
   maximized?: boolean
   disableMaximize?: boolean
   autoHide?: boolean
@@ -57,6 +58,8 @@ export interface WindowOptions extends WindowTitleBar, Partial<WindowBounds> {
   disableResize?: boolean
   width?: number
   height?: number
+  minWidth?: number
+  minHeight?: number
   center?: boolean
   transprencyContent?: boolean
   fluidContent?: boolean,
@@ -83,4 +86,5 @@ export interface WindowBounds extends Position, Size { }
 export interface IWindow extends WindowElement, WindowMethods {
   name: string
   id: string
+  icon: string
 }

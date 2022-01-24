@@ -42,7 +42,7 @@ export default function TitleBar(options: WindowTitleBar, events: TitleBarEvents
   let mouseOver: boolean = false
 
   titlebar = createElement('div', {
-    className: 'window-titlebar flex items-center' + (options.icon ? '' : ' no-icon')
+    className: 'window-titlebar flex items-center' + (options.hideIcon ? ' no-icon' : '')
   },
     [
       windowIcon.element,

@@ -8,3 +8,15 @@ export const longMonthNames = ["January", "February", "March", "April", "May", "
 
 export const titlebarHeight = 29
 export const taskbarHeight = 40
+
+export const userProfileImage = 'imgs/user.gif'
+
+export const WindowSnapPosition = {
+  top: 'top',
+  left: 'left',
+  right: 'right',
+  topLeft: 'topLeft',
+  bottomLeft: 'bottomLeft',
+  bottomRight: 'bottomRight',
+  topRight: 'topRight'
+}

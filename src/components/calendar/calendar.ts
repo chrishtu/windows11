@@ -7,12 +7,16 @@ function Calendar() {
   let calendarMonthElem: HTMLDivElement,
     calendarItemsElem: HTMLDivElement
 
-  function onShow() {
-    calendarItemsElem.innerHTML = ''
+  let currentDate = new Date().getDate()
 
-    const calendar = new CalendarBase({
-      siblingMonths: true
-    })
+  let intervalId: NodeJS.Timeout
+
+  const calendar = new CalendarBase({
+    siblingMonths: true
+  })
+
+  function init() {
+    calendarItemsElem.innerHTML = ''
 
     const today = new Date()
 
@@ -36,12 +40,48 @@ function Calendar() {
         className: 'calendar-day' + (date && date.siblingMonth ? ' -sibling-month' : '')
       },
         createElement('div', {
+          'data-date': date ? date.day : '',
           className: 'calendar-day-inner w-full h-full flex items-center content-center' + (date && (today.getDate() === date.day) && !date.siblingMonth ? ' active' : '')
         }, date ? date.day.toString() : '')
       )
 
       calendarItemsElem.appendChild(div)
     })
+  }
+
+  function update() {
+    const date = new Date()
+    const todayDate = date.getDate()
+
+    if (currentDate !== todayDate) {
+      const currentActiveItem = calendarItemsElem.querySelector(`[data-date="${currentDate}"`)
+
+      if (currentActiveItem instanceof HTMLDivElement) {
+        currentActiveItem.classList.remove('active')
+      }
+
+      const newActiveElement = calendarItemsElem.querySelector(`[data-date="${todayDate}"`)
+
+      if (newActiveElement instanceof HTMLDivElement) {
+        newActiveElement.classList.add('active')
+      }
+
+      currentDate = todayDate
+
+      calendarMonthElem.innerHTML = longMonthNames[date.getUTCMonth()]
+    }
+  }
+
+  function onShow() {
+    init()
+
+    intervalId = setInterval(() => {
+      update()
+    }, 1000)
+  }
+
+  function onHide() {
+    clearInterval(intervalId)
   }
 
   return Popup({
@@ -60,7 +100,8 @@ function Calendar() {
       ]
     ),
     {
-      onShow
+      onShow,
+      onHide
     }
   )
 }

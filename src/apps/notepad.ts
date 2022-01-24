@@ -9,14 +9,13 @@ const NotePad = (appInfo: IAppInfo, args?: any) => {
     let notePadElem = createElement('div', {
       tabIndex: 0,
       contentEditable: true,
-      className: 'w-full h-full',
+      className: 'w-full h-full scrollable scroll-y',
       style: {
         borderTop: '1px solid var(--border-color)',
         outline: 0,
         padding: '5px',
         color: 'var(--primary-text-color)',
         font: '400 14px Consolas',
-        overflow: 'auto',
         cursor: 'default'
       }
     })

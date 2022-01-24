@@ -3,7 +3,7 @@ import Explorer from "./explorer";
 import { CommingSoonApp } from "./inProgressApp";
 import NotePad from "./notepad";
 import Photos from "./photos";
-import Settings from "./settings";
+import Settings from "./settings/settings";
 
 export type AppParameter = (appInfo: IAppInfo, _args?: any) => void
 

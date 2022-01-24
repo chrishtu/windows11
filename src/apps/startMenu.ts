@@ -51,7 +51,7 @@ function AllApps(onBackButtonClick: Function, onAppItemClick: Function) {
         ]
       ),
       createElement('div', {
-        className: 'start-menu-apps-list w-full h-full'
+        className: 'start-menu-apps-list w-full h-full scrollable scroll-y'
       },
         Object.keys(groupApps).map((letter: string, index) => {
           return createElement('div', {
@@ -225,7 +225,7 @@ function StartMenu(options?: StartMenuOptions) {
     },
       [
         startMenuContent = createElement('div', {
-          className: 'start-menu-content flex flex-col w-full h-full'
+          className: 'start-menu-content flex flex-col w-full h-full scrollable scroll-y'
         },
           [
             //Content Home

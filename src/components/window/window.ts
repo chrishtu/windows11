@@ -4,17 +4,22 @@ import { generateID } from "../../utils";
 import TitleBar from "./titlebar";
 import { dragElement, resizeElem } from "./utils";
 import * as WindowManager from '../../windowManager'
-import { taskbarHeight, titlebarHeight } from "../constant";
+import { taskbarHeight, titlebarHeight, WindowSnapPosition } from "../constant";
 import { ResizeEvents } from "../../interfaces/events";
 import Taskbar from "../taskbar/taskbar";
+import desktop from "../desktop/desktop";
+import screenInfo from "../screenInfo";
 
 const maxZIndex = 100000
+const edgeWidth = 30
 
 interface WindowBoundsStyle {
   top?: string | number,
   left?: string | number,
+  minWidth?: string | number,
   width?: string | number,
   height?: string | number,
+  minHeight?: string | number,
   zIndex: string
 }
 
@@ -25,6 +30,10 @@ interface WindowListeners {
 interface IResizeHandle {
   setAspectRatio(ratio: number): void
   setKeepAspectRatio(keep: boolean): void
+}
+
+interface ITouchIndex {
+  [key: string]: boolean
 }
 
 export default function Window(options: WindowOptions) {
@@ -55,7 +64,8 @@ export default function Window(options: WindowOptions) {
   let isShow = false
   let isFullScreen = false
 
-  let dragTop = false
+  let snapPosition = ''
+  let winSnaped = false
 
   let _autoHideTitleBar: boolean = false
 
@@ -83,6 +93,7 @@ export default function Window(options: WindowOptions) {
 
   let titlebar = TitleBar({
     icon: options.icon,
+    hideIcon: options.hideIcon,
     title: options.title,
     disableMaximize: options.disableMaximize,
     maximized: options.maximized,
@@ -110,13 +121,23 @@ export default function Window(options: WindowOptions) {
   let _top = 0,
     _left = 0,
     _width = 300,
-    _height = 200
+    _height = 200,
+    _minWidth = 300,
+    _minHeight = 200
 
   let keepAspectRatio: boolean = false
   let aspectRatio = 0
 
   if (options.keepAspectRatio) {
     keepAspectRatio = options.keepAspectRatio
+  }
+
+  if (options.minWidth) {
+    _minWidth = options.minWidth
+  }
+
+  if (options.minHeight) {
+    _minHeight = options.minHeight
   }
 
   if (options.top) {
@@ -129,10 +150,17 @@ export default function Window(options: WindowOptions) {
 
   if (options.width) {
     _width = Number(options.width)
+    if (_width < _minWidth) {
+      _width = _minWidth
+    }
   }
 
   if (options.height) {
     _height = Number(options.height)
+
+    if (_height < _minHeight) {
+      _height = _minHeight
+    }
   }
 
   if (options.center) {
@@ -146,8 +174,12 @@ export default function Window(options: WindowOptions) {
 
   style.top = _top + 'px'
   style.left = _left + 'px'
+  style.minWidth = _minWidth + 'px'
   style.width = _width + 'px'
   style.height = _height + 'px'
+  style.minHeight = _minHeight + 'px'
+
+  lastBounds = { top: _top, left: _left, width: _width, height: _height }
 
   let className = ''
 
@@ -174,6 +206,16 @@ export default function Window(options: WindowOptions) {
     resizeTopRightH: HTMLElement
 
   let _window: HTMLDivElement
+  let touchEdge: ITouchIndex = {
+    top: false,
+    left: false,
+    right: false,
+    topLeft: false,
+    topRight: false,
+    bottomLeft: false,
+    bottomRight: false
+  }
+  let isLeaveEdge = true
 
   const resizeDisabledClassName = (options.disableResize ? ' disabled' : '')
 
@@ -335,6 +377,8 @@ export default function Window(options: WindowOptions) {
   }
 
   function onResizeEnd() {
+    lastBounds = getBounds()
+
     executeListeners('resizeend')
 
     onDragEnd()
@@ -392,23 +436,121 @@ export default function Window(options: WindowOptions) {
     onDragEnd
   })
 
+  function setTouchEdge(currentEdge: string, cb: () => void) {
+    if (!touchEdge[currentEdge]) {
+      touchEdge[currentEdge] = true
+      _window.classList.add('max-z-index')
+
+      Object.keys(touchEdge).forEach(key => {
+        if (key !== currentEdge) {
+          touchEdge[key] = false
+        }
+      })
+
+      isLeaveEdge = false
+      cb()
+    }
+  }
+
+  function setLeaveEdge(cb: () => void) {
+    if (!isLeaveEdge) {
+      isLeaveEdge = true
+      _window.classList.remove('max-z-index')
+
+      Object.keys(touchEdge).forEach(key => {
+        touchEdge[key] = false
+      })
+
+      cb()
+    }
+  }
+
   function onDrag(cordinate: Cordinate) {
     setTimeout(() => {
-      if (maximized) {
-        const leftDelta = Math.round(cordinate.x / window.innerWidth * lastBounds.width)
+      if (maximized || winSnaped) {
+        const curBound = getBounds()
+        const leftDelta = Math.round((cordinate.x - curBound.left) / curBound.width * lastBounds.width)
         const left = cordinate.x - leftDelta
 
-        setBounds({ ...lastBounds, top: 0, left })
-        maximized = false
-        titlebar.setMaximize(maximized)
-        _window.classList.remove('window-maximized')
-      }
+        let deltaHeight = cordinate.y - getBounds().top
 
+        setBounds({ ...lastBounds, top: maximized ? 0 : cordinate.y - deltaHeight, left })
+
+        if (winSnaped) {
+          winSnaped = false
+          removeWindowSnapStyle()
+        }
+
+        if (maximized) {
+          titlebar.setMaximize(maximized)
+          _window.classList.remove('window-maximized')
+          maximized = false
+        }
+      }
     }, 0)
 
-    dragTop = cordinate.y <= 0
-
     executeListeners('drag', cordinate)
+
+    if (!options.disableResize) {
+      //Top Left
+      if ((cordinate.y <= 0 && cordinate.x <= edgeWidth) || (cordinate.x <= 0 && cordinate.y <= edgeWidth)) {
+        setTouchEdge(WindowSnapPosition.topLeft, () => {
+          snapPosition = WindowSnapPosition.topLeft
+          desktop.showShape(WindowSnapPosition.topLeft, lastBounds)
+        })
+      }
+      //Top Right
+      else if ((cordinate.y <= 0 && cordinate.x >= screenInfo.width - edgeWidth) || (cordinate.x >= screenInfo.width - 1 && cordinate.y <= edgeWidth)) {
+        setTouchEdge(WindowSnapPosition.topRight, () => {
+          snapPosition = WindowSnapPosition.topRight
+          desktop.showShape(WindowSnapPosition.topRight, lastBounds)
+        })
+      }
+      //Bottom Left
+      else if ((cordinate.y >= screenInfo.height - taskbarHeight && cordinate.x <= edgeWidth) || (cordinate.x <= 0 && cordinate.y >= screenInfo.height - taskbarHeight - edgeWidth)) {
+        setTouchEdge(WindowSnapPosition.bottomLeft, () => {
+          snapPosition = WindowSnapPosition.bottomLeft
+          desktop.showShape(WindowSnapPosition.bottomLeft, lastBounds)
+        })
+      }
+      //Bottom Right
+      else if ((cordinate.y >= screenInfo.height - taskbarHeight && cordinate.x >= screenInfo.width - edgeWidth) || (cordinate.x >= screenInfo.width - 1 && cordinate.y >= screenInfo.height - taskbarHeight - edgeWidth)) {
+        setTouchEdge(WindowSnapPosition.bottomRight, () => {
+          snapPosition = WindowSnapPosition.bottomRight
+          desktop.showShape(WindowSnapPosition.bottomRight, lastBounds)
+        })
+      }
+
+      //Top
+      else if (cordinate.y <= 0 && cordinate.x > edgeWidth && cordinate.x < screenInfo.width - edgeWidth) {
+        setTouchEdge(WindowSnapPosition.top, () => {
+          snapPosition = WindowSnapPosition.top
+          desktop.showShape(WindowSnapPosition.top, lastBounds)
+        })
+      }
+      //Left
+      else if (cordinate.x <= 0 && cordinate.y > edgeWidth && cordinate.y < screenInfo.height - taskbarHeight - edgeWidth) {
+        setTouchEdge(WindowSnapPosition.left, () => {
+          snapPosition = WindowSnapPosition.left
+          desktop.showShape(WindowSnapPosition.left, lastBounds)
+        })
+      }
+      //Right
+      else if (cordinate.x >= screenInfo.width - 1 && cordinate.y > edgeWidth && cordinate.y < screenInfo.height - taskbarHeight - edgeWidth) {
+        setTouchEdge(WindowSnapPosition.right, () => {
+          snapPosition = WindowSnapPosition.right
+          desktop.showShape(WindowSnapPosition.right, lastBounds)
+        })
+      }
+
+      //Out
+      else {
+        setLeaveEdge(() => {
+          snapPosition = ''
+          desktop.removeShape()
+        })
+      }
+    }
   }
 
   function onRestoreDown() {
@@ -419,24 +561,76 @@ export default function Window(options: WindowOptions) {
 
   }
 
+  function restoreBound() {
+    if (_window.offsetTop < 0) {
+      _window.style.top = 0 + 'px';
+    }
+    if (window.innerHeight - _window.offsetTop < (taskbarHeight + titlebarHeight)) {
+      _window.style.top = (window.innerHeight - (taskbarHeight + titlebarHeight)) + 'px';
+    }
+    if (_window.offsetLeft + _window.offsetWidth < 30) {
+      _window.style.left = (-100) + 'px';
+    }
+    if (window.innerWidth - _window.offsetLeft < 30) {
+      _window.style.left = (window.innerWidth - 100) + 'px';
+    }
+  }
+
+  function setWindowSnapStyle() {
+    _window.classList.add('win-snap')
+  }
+
+  function removeWindowSnapStyle() {
+    _window.classList.remove('win-snap')
+  }
+
   function onDragEnd() {
     if (!maximized) {
-      if (dragTop && !options.disableMaximize) {
-        toggleMaximize()
+      if (snapPosition !== '' && !options.disableMaximize) {
+        winSnaped = true
 
-        dragTop = false
-      } else {
-        if (_window.offsetTop < 0) {
-          _window.style.top = 0 + 'px';
+        const halfWidth = Math.floor(screenInfo.width / 2)
+        const availableHeight = screenInfo.height - taskbarHeight
+        const halfAvailableHeight = Math.floor(availableHeight / 2)
+        const bottomHeight = availableHeight - halfAvailableHeight
+
+        if (snapPosition === WindowSnapPosition.top) {
+          toggleMaximize(true)
         }
-        if (window.innerHeight - _window.offsetTop < (taskbarHeight + titlebarHeight)) {
-          _window.style.top = (window.innerHeight - (taskbarHeight + titlebarHeight)) + 'px';
+        else if (snapPosition === WindowSnapPosition.left) {
+          setBounds({ top: 0, left: 0, width: halfWidth, height: availableHeight })
+          setWindowSnapStyle()
         }
-        if (_window.offsetLeft + _window.offsetWidth < 30) {
-          _window.style.left = (-100) + 'px';
+        else if (snapPosition === WindowSnapPosition.right) {
+          setBounds({ top: 0, left: halfWidth, width: halfWidth, height: availableHeight })
+          setWindowSnapStyle()
         }
-        if (window.innerWidth - _window.offsetLeft < 30) {
-          _window.style.left = (window.innerWidth - 100) + 'px';
+        else if (snapPosition === WindowSnapPosition.topLeft) {
+          setBounds({ top: 0, left: 0, width: halfWidth, height: halfAvailableHeight })
+          setWindowSnapStyle()
+        }
+        else if (snapPosition === WindowSnapPosition.bottomLeft) {
+          setBounds({ top: halfAvailableHeight, left: 0, width: halfWidth, height: bottomHeight })
+          setWindowSnapStyle()
+        }
+        else if (snapPosition === WindowSnapPosition.bottomRight) {
+          setBounds({ top: halfAvailableHeight, left: halfWidth, width: halfWidth, height: bottomHeight })
+          setWindowSnapStyle()
+        }
+        else if (snapPosition === WindowSnapPosition.topRight) {
+          setBounds({ top: 0, left: halfWidth, width: halfWidth, height: halfAvailableHeight })
+          setWindowSnapStyle()
+        }
+      }
+      else {
+        lastBounds = getBounds()
+        restoreBound()
+      }
+
+      for (let key in touchEdge) {
+        if (touchEdge[key]) {
+          desktop.removeShape()
+          break
         }
       }
     }
@@ -445,6 +639,8 @@ export default function Window(options: WindowOptions) {
   }
 
   function maximize() {
+    snapPosition = ''
+
     if (!options.disableMaximize) {
       setBounds({ top: 0, left: 0, width: window.innerWidth, height: window.innerHeight - taskbarHeight })
       _window.classList.add('window-maximized')
@@ -456,16 +652,23 @@ export default function Window(options: WindowOptions) {
     if (!options.disableMaximize) {
       setBounds(lastBounds)
       _window.classList.remove('window-maximized')
+      removeWindowSnapStyle()
       onRestoreDown()
     }
   }
 
-  function toggleMaximize() {
+  function toggleMaximize(keepBound?: boolean) {
     if (!options.disableMaximize) {
       maximized = !maximized
 
       if (maximized) {
-        lastBounds = getBounds()
+        if (!keepBound && !winSnaped) {
+          lastBounds = getBounds()
+        }
+
+        if (lastBounds.top < 0) {
+          lastBounds.top = 0
+        }
 
         maximize()
       } else {
@@ -580,13 +783,6 @@ export default function Window(options: WindowOptions) {
 
     if (isFullScreen) {
       lastBounds = getBounds()
-
-      setBounds({
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
 
       _window.classList.add('fullscreen')
 
@@ -732,6 +928,7 @@ export default function Window(options: WindowOptions) {
 
   windowInfo = {
     id,
+    icon: options.icon,
     name: options.name,
     element: _window,
     setContent,

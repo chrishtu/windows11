@@ -259,21 +259,21 @@ function _Taskbar() {
             },
               [
                 createElement('div', {
-                  className: 'flex items-center content-center h-full flex-shrink-0',
+                  className: 'taskbar-item-button flex items-center content-center h-full flex-shrink-0',
                   style: {
                     width: taskbarHeight + 'px'
                   },
                   innerHTML: volumeIcon2
                 }),
                 createElement('div', {
-                  className: 'flex items-center content-center h-full flex-shrink-0',
+                  className: 'taskbar-item-button flex items-center content-center h-full flex-shrink-0',
                   style: {
                     width: taskbarHeight + 'px'
                   },
                   innerHTML: wifiIcon
                 }),
                 createElement('div', {
-                  className: 'flex items-center content-center h-full flex-shrink-0',
+                  className: 'taskbar-item-button flex items-center content-center h-full flex-shrink-0',
                   style: {
                     width: taskbarHeight + 'px'
                   },

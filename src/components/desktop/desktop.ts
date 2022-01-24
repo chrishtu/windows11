@@ -1,14 +1,20 @@
 import { AppInfo } from "../../apps/appInfo";
 import { FileMapping } from "../../apps/fileMapping";
-import createElement, { appendChild } from "../../createElement";
+import createElement, { appendChild, setStyle } from "../../createElement";
+import { triggerEvent } from "../../event";
+import eventNames from "../../eventNames";
+import { WindowBounds } from "../../interfaces/window";
 import { ProcessInfo, startProcess } from "../../proceduce";
 import { setState } from "../../store";
 import { getExt, getFileName } from "../../utils";
 import { taskbarHeight } from "../constant";
+import screenInfo from "../screenInfo";
 
 interface Desktop {
-  element: HTMLDivElement,
-  setBackgroundImage: (path: string) => void
+  element: HTMLDivElement
+  setBackgroundImage(path: string): void
+  showShape(position: string, winBound: WindowBounds): void
+  removeShape(): void
 }
 
 function DesktopItems() {
@@ -130,11 +136,19 @@ function DesktopItems() {
 }
 
 function Desktop(): Desktop {
+  let shapeElem = createElement('div', {
+    className: 'desktop-shape-presentation'
+  })
+
   let desktop = createElement('div', {
     className: 'desktop fade-in'
   })
 
+  let showTimeout: NodeJS.Timeout
+  let isShow = false
+
   appendChild(document.body, desktop)
+  appendChild(document.body, shapeElem)
 
   setTimeout(() => {
     appendChild(desktop, DesktopItems())
@@ -150,6 +164,8 @@ function Desktop(): Desktop {
       image.onload = () => {
         desktop.classList.add('fade-in')
         desktop.style.backgroundImage = `url("${path}")`
+
+        triggerEvent(eventNames.backgroundImageChange, path)
       }
       image.src = path
     }, 250)
@@ -157,9 +173,150 @@ function Desktop(): Desktop {
     setState({ backgroundImage: path })
   }
 
+  function showShape(position: string, _winBound: WindowBounds) {
+    if (showTimeout) {
+      clearTimeout(showTimeout)
+    }
+
+    const halfAvailableWidth = Math.floor(screenInfo.width / 2)
+    const availableHeight = screenInfo.height - taskbarHeight
+    const halfAvailableHeight = Math.floor(availableHeight / 2)
+
+    if (!isShow) {
+      if (position === 'top') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: halfAvailableWidth + 'px'
+        })
+      }
+      else if (position === 'left') {
+        setStyle(shapeElem, {
+          top: halfAvailableHeight + 'px',
+          left: '10px'
+        })
+      }
+      else if (position === 'right') {
+        setStyle(shapeElem, {
+          top: halfAvailableHeight + 'px',
+          left: screenInfo.width + 'px'
+        })
+      }
+      else if (position === 'topLeft') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: '10px'
+        })
+      }
+      else if (position === 'topRight') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: screenInfo.width + 'px',
+        })
+      }
+      else if (position === 'bottomLeft') {
+        setStyle(shapeElem, {
+          top: availableHeight + 'px',
+          left: '10px',
+        })
+      }
+      else if (position === 'bottomRight') {
+        setStyle(shapeElem, {
+          top: availableHeight + 'px',
+          left: screenInfo.width + 'px'
+        })
+      }
+
+      isShow = true
+    }
+
+    showTimeout = setTimeout(() => {
+      if (position === 'top') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: '10px',
+          height: (availableHeight - 20) + 'px',
+          width: (screenInfo.width - 20) + 'px',
+          transformOrigin: 'top'
+        })
+      }
+      else if (position === 'left') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: '10px',
+          height: (availableHeight - 20) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'left'
+        })
+      }
+      else if (position === 'right') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: halfAvailableWidth + 'px',
+          height: (availableHeight - 20) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'center right'
+        })
+      }
+      else if (position === 'topLeft') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: '10px',
+          height: (halfAvailableHeight - 10) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'left top'
+        })
+      }
+      else if (position === 'topRight') {
+        setStyle(shapeElem, {
+          top: '10px',
+          left: halfAvailableWidth + 'px',
+          height: (halfAvailableHeight - 10) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'right top'
+        })
+      }
+      else if (position === 'bottomLeft') {
+        setStyle(shapeElem, {
+          top: halfAvailableHeight + 'px',
+          left: '10px',
+          height: (halfAvailableHeight - 10) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'left bottom'
+        })
+      }
+      else if (position === 'bottomRight') {
+        setStyle(shapeElem, {
+          top: halfAvailableHeight + 'px',
+          left: halfAvailableWidth + 'px',
+          height: (halfAvailableHeight - 10) + 'px',
+          width: (halfAvailableWidth - 10) + 'px',
+          transformOrigin: 'right bottom',
+        })
+      }
+
+      shapeElem.classList.add('show')
+    }, 150)
+  }
+
+  function removeShape() {
+    isShow = false
+
+    if (showTimeout) {
+      clearTimeout(showTimeout)
+    }
+
+    shapeElem.classList.remove('show')
+    shapeElem.style.top = '0'
+    shapeElem.style.left = '0'
+    shapeElem.style.width = '0'
+    shapeElem.style.height = '0'
+  }
+
   return {
     element: desktop,
-    setBackgroundImage
+    setBackgroundImage,
+    showShape,
+    removeShape
   }
 }
 

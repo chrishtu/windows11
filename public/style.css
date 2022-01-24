@@ -3,18 +3,63 @@
   user-select: none;
 }
 
+:focus-visible {
+  outline: 0;
+}
+
 :root {
-  --blue-color: #3170f5;
+  --red-color: rgb(255, 59, 48);
+  --orange-color: rgb(255, 149, 0);
+  --yellow-color: rgb(255, 204, 0);
+  --green-color: rgb(52, 199, 89);
+  --mint-color: rgb(0, 199, 190);
+  --teal-color: rgb(48, 176, 199);
+  --cyan-color: rgb(50, 173, 230);
+  --blue-color: rgb(0, 122, 255);
+  --indigo-color: rgb(88, 86, 214);
+  --purple-color: rgb(175, 82, 222);
+  --pink-color: rgb(255, 54, 85);
+  --brown-color: rgb(162, 132, 94);
+  --gray-color-1: rgb(142, 142, 147);
+  --gray-color-2: rgb(174, 174, 178);
+  --gray-color-3: rgb(199, 199, 204);
+  --gray-color-4: rgb(209, 209, 214);
+  --gray-color-5: rgb(229, 229, 234);
+  --gray-color-6: rgb(242, 242, 247);
   --accent-color: var(--blue-color);
+  --nav-item-bg-color: #ddd;
   --box-blur: 20px;
   --box-border-radius: 5px;
   --box-drop-shadow: 0px 3px 10px rgba(0, 0, 0, .5);
   --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
-  --scrollbar-color: #888;
+  --scrollbar-color: rgba(0, 0, 0, .5);
+}
+
+:root.glass {
+  --nav-item-bg-color: #eee;
 }
 
 :root.dark {
-  --scrollbar-color: #ddd;
+  --red-color: rgb(255, 69, 58);
+  --orange-color: rgb(255, 159, 10);
+  --yellow-color: rgb(255, 214, 10);
+  --green-color: rgb(48, 209, 88);
+  --mint-color: rgb(102, 212, 207);
+  --teal-color: rgb(64, 200, 224);
+  --cyan-color: rgb(100, 210, 255);
+  --blue-color: rgb(10, 132, 255);
+  --indigo-color: rgb(94, 92, 230);
+  --purple-color: rgb(191, 90, 242);
+  --pink-color: rgb(255, 55, 95);
+  --brown-color: rgb(172, 142, 104);
+  --scrollbar-color: rgba(255, 255, 255, .7);
+  --gray-color-1: rgb(142, 142, 147);
+  --gray-color-2: rgb(99, 99, 102);
+  --gray-color-3: rgb(72, 72, 74);
+  --gray-color-4: rgb(58, 58, 60);
+  --gray-color-5: rgb(44, 44, 46);
+  --gray-color-6: rgb(28, 28, 30);
+  --nav-item-bg-color: #444;
 }
 
 ::-webkit-scrollbar {
@@ -40,8 +85,8 @@
   display: block;
   background-repeat: no-repeat;
   border: 0;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 /* Up */
@@ -96,6 +141,12 @@
 
 .flex {
   display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inline-flex {
@@ -201,6 +252,11 @@
   -webkit-line-clamp: 2;
 }
 
+.image-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 html, body {
   font-family: 'Segoe UI', sans-serif;
   letter-spacing: .4px;
@@ -234,6 +290,24 @@ body {
 .desktop.fade-in {
   opacity: 0;
   animation: fade .7s ease-in forwards;
+}
+
+.desktop-shape-presentation {
+  visibility: hidden;
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: 100000;
+  transform: scale(0);
+  transform-origin: center;
+  box-shadow: var(--box-drop-shadow);
+  border-radius: var(--box-border-radius);
+}
+
+.desktop-shape-presentation.show {
+  visibility: visible;
+  transition: all .2s var(--animation-timing-function);
+  transform: scale(1);
 }
 
 .desktop-app-items {
@@ -271,6 +345,7 @@ body {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -308,14 +383,27 @@ input[type="checkbox"] {
 }
 
 .scrollable {
-  overflow-y: auto;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
   transform: translateZ(0);
+}
+
+.scrollable.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.scrollable.scroll-y {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 @keyframes slideup {
   from {
     transform: translateY(60%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -325,6 +413,7 @@ input[type="checkbox"] {
   from {
     transform: translateX(60%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -334,6 +423,7 @@ input[type="checkbox"] {
   from {
     transform: translateX(-60%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -357,6 +447,7 @@ input[type="checkbox"] {
   from {
     visibility: visible;
   }
+
   to {
     visibility: hidden;
   }
@@ -366,6 +457,7 @@ input[type="checkbox"] {
   from {
     transform: scale(.6);
   }
+
   to {
     transform: scale(1);
   }
@@ -382,6 +474,7 @@ html {
   --window-background: #f8f8f8;
   --theme-background: #f8f8f8;
   --theme-background-primary: #f3f3f3;
+  --theme-background-secondary: #fafafb;
   --window-button-hover: rgba(192, 192, 192, .2);
   --window-button-active: rgba(192, 192, 192, .5);
   --window-button-close-hover: #e81123;
@@ -394,8 +487,12 @@ html {
   --taskbar-item-color-hover: rgba(255, 255, 255, .6);
   --taskbar-background: #f1f2f3;
   --label-color: #444;
-  --mask-color: rgba(255, 255, 255, .1);
-  --hover-color: rgba(255, 255, 255);
+  --mask-color: rgba(240, 240, 240, .6);
+  --hover-color: #000;
+  --hover-bg-color: rgba(192, 192, 192, .4);
+  --active-color: #000;
+  --active-bg-color: rgba(192, 192, 192, .8);
+  --box-shadow-color: rgba(0, 0, 0, .3);
 }
 
 html .window.focus {
@@ -409,15 +506,16 @@ html .window.focus {
 
 html.dark {
   --black-white: #000;
-  --primary-text-color: #eee;
+  --primary-text-color: #fafafb;
   --text-disabled: #888;
   --button-bg-color: #666;
   --button-bg-color-hover: #333;
   --button-color: #fff;
   --titlebar-text-color: #aaa;
-  --window-background: #444;
+  --window-background: #3a3a3b;
   --theme-background: #444;
-  --theme-background-primary: #4a4a4a;
+  --theme-background-primary: #4a4a4b;
+  --theme-background-secondary: #5a5a5b;
   --window-button-hover: rgba(100, 100, 100, .5);
   --window-button-active: rgba(80, 80, 80, .5);
   --window-button-close-hover: #e81123;
@@ -429,13 +527,17 @@ html.dark {
   --taskbar-item-color-hover: rgba(80, 80, 80, .6);
   --taskbar-background: #111;
   --label-color: #ddd;
-  --mask-color: rgba(0, 0, 0, .1);
-  --hover-color: rgba(0, 0, 0, .3);
+  --mask-color: rgba(0, 0, 0, .05);
+  --hover-color: #fff;
+  --hover-bg-color: rgba(192, 192, 192, .5);
+  --active-color: #fff;
+  --active-bg-color: rgba(192, 192, 192, .7);
+  --box-shadow-color: rgba(192, 192, 192, .5);
 }
 
 html.dark .window.focus {
   --titlebar-text-color: #eee;
-  --window-background: #333;
+  --window-background: #2a2a2b;
   --theme-background: #333;
   --theme-background-primary: #3a3a3a;
   --window-button-icon-color: #ddd;
@@ -445,17 +547,27 @@ html.dark .window.focus {
 html.glass {
   --window-background: rgba(255, 255, 255, .8) !important;
   --taskbar-background: radial-gradient(circle, rgba(255, 255, 255, .6) 0%, rgba(255, 255, 255, .9) 100%);
-  --hover-color: rgba(255, 255, 255, .6);
+  --theme-background-secondary: rgb(220, 220, 220, .5);
+  --mask-color: rgba(255, 255, 255, .2);
+  --hover-color: #fff;
+  --hover-bg-color: rgba(120, 120, 120, .6);
+  --active-color: #fff;
+  --active-bg-color: rgba(120, 120, 120, .8);
 }
 
 html.glass .window.focus {
-  --window-background: rgba(255, 255, 255, .4) !important;
+  --window-background: rgba(255, 255, 255, .6) !important;
 }
 
 html.glass.dark {
   --window-background: rgba(0, 0, 0, .5) !important;
   --taskbar-background: radial-gradient(circle, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, .8) 100%);
-  --hover-color: rgba(0, 0, 0, .2);
+  --hover-color: #fff;
+  --active-color: #fff;
+  --hover-bg-color: rgba(192, 192, 192, .5);
+  --active-bg-color: rgba(192, 192, 192, .7);
+  --mask-color: rgba(0, 0, 0, .05);
+  --box-shadow-color: rgba(192, 192, 192, .9);
 }
 
 html.dark.glass .window.focus {
@@ -502,7 +614,7 @@ html.dark.glass .window.focus {
   background: var(--window-background);
 }
 
-.window.window-maximized .window-background {
+.window.window-maximized .window-background, .window.win-snap .window-background {
   border-radius: 0;
 }
 
@@ -531,10 +643,14 @@ html.dark.glass .window.focus {
 }
 
 .window.focus {
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, .5);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, .5);
 }
 
 .window.fullscreen {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   z-index: 9999999 !important;
   box-shadow: none !important;
   border-radius: 0 !important;
@@ -549,6 +665,7 @@ html.dark.glass .window.focus {
     transform: scale(1);
     opacity: 1;
   }
+
   to {
     opacity: 0;
     transform: scale(.6);
@@ -557,6 +674,10 @@ html.dark.glass .window.focus {
 
 .window.closing {
   animation: zoomAndFadeOut .15s var(--animation-timing-function) forwards;
+}
+
+.window.max-z-index {
+  z-index: 100001;
 }
 
 .window-titlebar {
@@ -653,7 +774,7 @@ html.dark.glass .window.focus {
   padding-left: 15px;
 }
 
-.window.window-maximized .window-inner {
+.window.window-maximized .window-inner, .window.win-snap .window-inner {
   border-radius: 0;
 }
 
@@ -867,6 +988,10 @@ html.glass .taskbar {
   background-color: var(--taskbar-item-color-hover);
 }
 
+.taskbar-item-button:hover svg {
+  --window-icon-color: var(--accent-color);
+}
+
 .taskbar-item-more {
   width: 32px;
 }
@@ -953,10 +1078,11 @@ html.glass .taskbar {
 
 .taskbar-app-thumbnail {
   position: relative;
-  max-height: 120px;
+  max-height: 152px;
   border-radius: var(--box-border-radius);
   overflow: hidden;
   z-index: 1;
+  background-color: var(--theme-background-primary);
 }
 
 /* .taskbar-app-thumbnail.active {
@@ -965,6 +1091,26 @@ html.glass .taskbar {
 
 .taskbar-app-thumbnail:not(:first-child) {
   margin-left: 15px;
+}
+
+.taskbar-app-thumbnail-heading {
+  height: 32px;
+  contain: strict;
+}
+
+.taskbar-app-thumbnail-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+}
+
+.taskbar-app-thumbnail-title {
+  margin-left: 10px;
+}
+
+.taskbar-app-thumbnail-container {
+  /* border-radius: var(--box-border-radius); */
+  overflow: hidden;
 }
 
 .window.taskbar-app-thumbnail-content {
@@ -982,10 +1128,17 @@ html.glass .taskbar {
   z-index: 1 !important;
 }
 
-.taskbar-app-thumbnail-close-button {
-  position: absolute;
+.taskbar-app-thumbnail-content .window-titlebar {
+  display: none;
+}
+
+.taskbar-app-thumbnail-content .window-content:not(.fluid) {
   top: 0;
-  right: 0;
+  height: 100%;
+}
+
+.taskbar-app-thumbnail-close-button {
+  margin-left: auto;
   width: 32px;
   height: 32px;
   visibility: hidden;
@@ -1047,8 +1200,6 @@ html.glass .taskbar {
 
 .start-menu-content {
   position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .start-menu-content-home {
@@ -1098,7 +1249,7 @@ html.glass .taskbar {
 }
 
 .start-menu-apps-list-item:hover, .start-menu-apps-list-label:hover {
-  background: var(--hover-color);
+  background: var(--hover-bg-color);
 }
 
 .start-menu-apps-list-item-icon {
@@ -1152,7 +1303,7 @@ html.glass .taskbar {
 }
 
 .start-menu-pinned-apps-item:hover {
-  background: var(--hover-color);
+  background: var(--hover-bg-color);
 }
 
 .start-menu-pinned-apps-item-icon, .start-menu-recommended-apps-item-icon {
@@ -1186,7 +1337,7 @@ html.glass .taskbar {
 }
 
 .start-menu-recommended-apps-item:hover {
-  background: var(--hover-color);
+  background: var(--hover-bg-color);
 }
 
 .start-menu-recommended-apps-item-icon {
@@ -1231,7 +1382,7 @@ html.glass .taskbar {
 }
 
 .start-menu-footer-button:hover {
-  background: var(--hover-color);
+  background: var(--hover-bg-color);
   backdrop-filter: blur(var(--box-blur));
 }
 
@@ -1260,7 +1411,6 @@ html.glass .taskbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--theme-background);
   cursor: pointer;
 }
 
@@ -1299,7 +1449,7 @@ html.glass .taskbar {
 .screen-nightlight {
   background-color: hsla(14, 100%, 50%, .2);
   opacity: 0;
-  transition: opacity .5s var(--animation-timing-function);
+  transition: opacity 3s var(--animation-timing-function);
 }
 
 .screen-nightlight.active {
@@ -1378,12 +1528,11 @@ html.glass .taskbar {
   top: -30px;
   right: -15px;
   font-size: 12px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, .6);
   display: none;
-  background-color: #fff;
+  background-color: var(--black-white);
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, .1);
-  border-radius: 3px;
+  border-radius: var(--box-border-radius);
   padding: 3px 5px;
   line-height: 1;
 }
@@ -1416,6 +1565,7 @@ html.glass .taskbar {
   text-align: right;
   width: 40px;
   height: 40px;
+  padding: 3px;
 }
 
 .calendar-day.-weekday {
@@ -1436,7 +1586,7 @@ html.glass .taskbar {
 }
 
 .calendar-day-inner:not(.active):hover {
-  background-color: var(--hover-color);
+  background-color: var(--hover-bg-color);
 }
 
 .calendar-month {
@@ -1551,6 +1701,7 @@ html.glass .taskbar {
   width: 30%;
   z-index: 3;
   background: #333;
+  top: calc(50% - 1px);
   right: calc(50% + 2px);
 }
 

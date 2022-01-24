@@ -24,6 +24,16 @@ export function appendChilds<T extends ElementOrFlagment>(parent: T, child: T | 
   }
 }
 
+export function setStyle(element: HTMLElement, style: Partial<CSSStyleDeclaration>) {
+  for (let key in style) {
+    if (key.indexOf('-') > -1) {
+      element.style.setProperty(key, style[key] as any)
+    } else {
+      (element.style as any)[key] = style[key]
+    }
+  }
+}
+
 export type IProps<T> =
   & Omit<Partial<T>, 'style'>
   & {
@@ -40,13 +50,7 @@ export default function createElement<K extends keyof HTMLElementTagNameMap>(tag
     for (let prop in _props) {
       if (prop === 'style') {
         const style = _props[prop]
-        for (let key in style) {
-          if (key.indexOf('-') > -1) {
-            element.style.setProperty(key, style[key] as any)
-          } else {
-            (element.style as any)[key] = style[key]
-          }
-        }
+        setStyle(element, style)
       }
       else {
         if (prop.indexOf('-') > -1 || prop.indexOf(':') > -1) {

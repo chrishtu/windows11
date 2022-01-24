@@ -3,7 +3,7 @@ import { triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { IWindow } from "../../interfaces/window";
 import { createWindow } from "../../proceduce";
-import { closeThumbnails, hideThumbnail, preventHidden, TaskBarAppThumbnails } from "./thumbnail";
+import { closeThumbnails, getThumbnailElement, hideThumbnail, preventHidden, TaskBarAppThumbnails } from "./thumbnail";
 
 export interface AppInfo {
   name: string,
@@ -88,21 +88,41 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
 
   const iconProps = getIconProps(appInfo.icon, appInfo.iconType)
 
+  let showTimeout: NodeJS.Timeout
+
   props.onmousedown = (e: MouseEvent) => {
     e.stopPropagation()
     triggerEvent(eventNames.closePopup)
+
+    if (showTimeout) clearTimeout(showTimeout)
+  }
+
+  function showThumbnail() {
+    const wins = instances.map(t => t.app)
+    TaskBarAppThumbnails(wins, appItem.getBoundingClientRect())
   }
 
   props.onmouseover = () => {
     if (instances.length) {
       preventHidden()
 
-      const wins = instances.map(t => t.app)
-      TaskBarAppThumbnails(wins, appItem.getBoundingClientRect())
+      if (showTimeout) clearTimeout(showTimeout)
+
+      const thumbnailElem = getThumbnailElement()
+
+      if (!thumbnailElem) {
+        showTimeout = setTimeout(() => {
+          showThumbnail()
+        }, 500)
+      } else {
+        showThumbnail()
+      }
     }
   }
 
   props.onmouseleave = () => {
+    if (showTimeout) clearTimeout(showTimeout)
+
     if (instances.length) {
       hideThumbnail()
     }
@@ -182,7 +202,7 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
   function setActive(_winId: string) {
     setTimeout(() => {
       appItem.classList.add('active')
-    }, 0)
+    }, 10)
   }
 
   function removeActive(_windId: string) {

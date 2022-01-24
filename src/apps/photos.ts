@@ -166,6 +166,8 @@ const Photos = (appInfo: IAppInfo, _args?: any) => {
 
   Window({
     args: _args,
+    icon: appInfo.icon,
+    hideIcon: true,
     name: appInfo.name,
     title: appInfo.productName,
     top: 100,

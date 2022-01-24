@@ -14,7 +14,7 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d public",
-    "start": "tsdx watch --onSuccess \"cp dist/windows11.cjs.production.min.js public\"",
+    "start": "tsdx watch --transpileOnly --onSuccess \"cp dist/windows11.cjs.production.min.js public\"",
     "build": "tsdx build && cp dist/windows11.cjs.production.min.js public",
     "test": "tsdx test",
     "lint": "tsdx lint",
@@ -55,5 +55,9 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "browserslist": "^4.19.1",
+    "caniuse-lite": "^1.0.30001300"
   }
 }

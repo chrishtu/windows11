@@ -1,13 +1,16 @@
 import createElement, { appendChilds } from "../../createElement";
 import { IWindow, WindowBounds } from "../../interfaces/window";
-import { taskbarHeight } from "../constant";
+import { taskbarHeight, titlebarHeight } from "../constant";
 import { triggerEvent } from "../../event";
 import { closeIcon } from "../icons/icons";
 import eventNames from "../../eventNames";
 
 let thumbnailElement: HTMLDivElement | undefined
 let thumbnailHideTimeout: NodeJS.Timeout
-let firstInitTimeout: NodeJS.Timeout
+
+export function getThumbnailElement() {
+  return thumbnailElement
+}
 
 export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: WindowBounds) {
 
@@ -33,6 +36,9 @@ export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: Wind
         thumbnailScale = 200 / winWidth
       }
 
+      if (thumbnail.className.indexOf('fluid') === -1) {
+        thumbnail.style.height = (winHeight - titlebarHeight) + 'px'
+      }
 
       thumbnail.style.transform = `scale(${thumbnailScale})`
 
@@ -48,18 +54,41 @@ export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: Wind
               className: 'taskbar-app-thumbnail-inner relative w-full h-full fade-in',
               onclick: onThumbnailClick.bind(null, win)
             },
-              thumbnail
-            ),
-            createElement('div', {
-              title: 'Close',
-              className: 'taskbar-app-thumbnail-close-button flex content-center items-center',
-              innerHTML: closeIcon,
-              onclick: () => {
-                win.close()
-                closeThumbnails()
-                restoreView()
-              }
-            })
+              [
+                createElement('div', {
+                  className: 'taskbar-app-thumbnail-heading flex items-center'
+                },
+                  [
+                    createElement('div', {
+                      className: 'taskbar-app-thumbnail-icon image-cover flex-shrink-0',
+                      style: {
+                        backgroundImage: `url("${win.icon}")`
+                      }
+                    }),
+                    createElement('div', {
+                      className: 'taskbar-app-thumbnail-title'
+                    },
+                      createElement('div', {
+                        className: 'text-ellipsis'
+                      }, win.getTitle())
+                    ),
+                    createElement('div', {
+                      title: 'Close',
+                      className: 'taskbar-app-thumbnail-close-button flex content-center items-center flex-shrink-0',
+                      innerHTML: closeIcon,
+                      onclick: () => {
+                        win.close()
+                        closeThumbnails()
+                        restoreView()
+                      }
+                    })
+                  ]
+                ),
+                createElement('div', {
+                  className: 'taskbar-app-thumbnail-container'
+                }, thumbnail)
+              ]
+            )
           ]
         ),
         thumbnail
@@ -105,7 +134,7 @@ export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: Wind
       thumbnailElement.style.bottom = (taskbarHeight + 10) + 'px'
       thumbnailElement.style.left = left + 'px'
 
-      thumbnailElement.style.height = (height + 30) + 'px'
+      thumbnailElement.style.height = (height + 62) + 'px'
     }
   }
 
@@ -122,7 +151,7 @@ export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: Wind
       const bounds = t.thumbnail.getBoundingClientRect()
 
       t.container.style.width = bounds.width + 'px'
-      t.container.style.height = bounds.height + 'px'
+      t.container.style.height = (bounds.height + 32) + 'px'
 
       if (bounds.height > thumbnailHeight) {
         thumbnailHeight = bounds.height
@@ -132,19 +161,15 @@ export function TaskBarAppThumbnails(instances: Array<IWindow>, iconBounds: Wind
     setBounds(thumbnailHeight)
   }
 
-  if (firstInitTimeout) clearTimeout(firstInitTimeout)
+  thumbnailElement = createElement('div', {
+    className: 'taskbar-app-thumbnails flex',
+    onmouseover: preventHidden,
+    onmouseleave: hideThumbnail
+  })
 
-  firstInitTimeout = setTimeout(() => {
-    thumbnailElement = createElement('div', {
-      className: 'taskbar-app-thumbnails flex',
-      onmouseover: preventHidden,
-      onmouseleave: hideThumbnail
-    })
+  document.body.appendChild(thumbnailElement)
 
-    document.body.appendChild(thumbnailElement)
-
-    init()
-  }, 500)
+  init()
 }
 
 export function preventHidden() {
