@@ -1,3 +1,405 @@
+/* Settings */
+.setting-group:not(:first-child) {
+  margin-top: 20px;
+}
+
+.setting-label {
+  font-weight: bold;
+}
+
+.setting-items {
+  width: 100%;
+}
+
+.app-settings {
+  /* background: var(--theme-background); */
+}
+
+.setting-sidebar {
+  width: 240px;
+}
+
+.setting-sidebar-user-info {
+  padding: 20px;
+}
+
+.setting-sidebar-user-info-avatar {
+  width: 45px;
+  height: 45px;
+  background-size: cover;
+}
+
+.setting-sidebar-user-info-name {
+  padding-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  color: var(--label-color);
+}
+
+.setting-sidebar-search {
+  padding: 0 10px;
+}
+
+.setting-sidebar-nav {
+  padding: 0 10px;
+  padding-bottom: 30px;
+  margin-top: 30px;
+}
+
+.setting-sidebar-nav-item {
+  height: 34px;
+  padding: 0 10px;
+  margin: 2px 0;
+  border-radius: var(--box-border-radius);
+}
+
+.setting-sidebar-nav-item:hover {
+  background: var(--hover-bg-color);
+  /* backdrop-filter: blur(var(--box-blur)); */
+  color: var(--hover-color);
+}
+
+.setting-sidebar-nav-item.active {
+  background: var(--active-bg-color);
+  color: var(--active-color);
+}
+
+/* .setting-content {
+  background: var(--theme-background-primary);
+} */
+
+.setting-content-main {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.setting-content-heading {
+  width: 100%;
+  height: 80px;
+  padding-left: 40px;
+}
+
+.setting-content-heading-item {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.setting-content-heading-route.disabled {
+  color: var(--label-color);
+}
+
+.setting-content-heading-route-divider {
+  margin: 0 5px;
+  width: 32px;
+  height: 32px;
+}
+
+.setting-content-heading-route-divider svg {
+  width: 18px;
+  height: 18px;
+}
+
+.setting-content-heading-route-divider svg {
+  stroke: var(--label-color);
+}
+
+.setting-system-main-content {
+  max-width: 600px;
+  min-width: 400px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+}
+
+.setting-system-desktop-inner {
+  width: 160px;
+  padding-top: 56.25%;
+  border: 4px solid #000;
+  border-radius: var(--box-border-radius);
+  overflow: hidden;
+}
+
+.setting-system-info {
+  margin-left: 20px;
+}
+
+.setting-nav-row {
+  padding: 15px 20px;
+  padding-right: 60px;
+}
+
+.setting-nav-row.has-icon {
+  padding-left: 60px;
+}
+
+.setting-nav-row:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-nav-row-right {
+  margin-left: auto;
+}
+
+.setting-system-info-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.setting-system-info-role {
+  margin-top: 3px;
+}
+
+.setting-system-info-action {
+  margin-top: 5px;
+  color: var(--accent-color);
+}
+
+.setting-system-office {
+  margin-top: 20px;
+}
+
+.setting-system-office-onedrive-icon {
+  width: 32px;
+  height: 32px;
+  background: center / cover no-repeat url("imgs/icons/One Drive.png");
+}
+
+.setting-system-office-onedrive-info {
+  margin-left: 20px;
+}
+
+.setting-system-office-onedrive-info-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.setting-system-office-onedrive-info-action {
+  color: var(--accent-color);
+}
+
+.setting-nav-list {
+  margin-top: 10px;
+}
+
+.setting-nav-item {
+  margin: 5px 0;
+  background-color: var(--nav-item-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--box-border-radius);
+}
+
+/* .setting-nav-item:hover {
+  background-color: var(--hover-bg-color);
+} */
+
+.setting-nav-item-header {
+  padding: 10px 0;
+}
+
+.setting-nav-item-icon {
+  width: 50px;
+}
+
+.setting-nav-item-info {
+  padding-left: 20px;
+}
+
+.setting-nav-item-name {
+  font-weight: 500;
+}
+
+.setting-nav-item-desc {
+  margin-top: 5px;
+  color: var(--label-color);
+}
+
+.setting-nav-item-control {
+  margin-left: 20px;
+}
+
+.setting-nav-item-icon-more svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--label-color);
+}
+
+.setting-nav-item-icon-more {
+  margin-left: 20px;
+  transition: transform 0.3s ease;
+}
+
+.setting-nav-item-icon.rotate {
+  transform: rotate(-90deg);
+}
+
+.setting-nav-item-content {
+  border-top: 1px solid var(--border-color);
+  transition: height 0.3s var(--animation-timing-function);
+  display: none;
+}
+
+.setting-nav-item-content.show {
+  display: block;
+}
+
+.setting-help {
+  max-width: 260px;
+  width: 100%;
+  padding-left: 10px;
+  margin-bottom: 40px;
+}
+
+.setting-system-help-item-label {
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.setting-system-help-actions {
+  margin-top: 60px;
+}
+
+.setting-system-help-item-link {
+  margin: 10px 0;
+  color: var(--accent-color);
+}
+
+.setting-quick-theme {
+  gap: 6px;
+}
+
+.setting-quick-theme-item {
+  padding: 4px;
+  width: 120px;
+  height: 100px;
+}
+
+.setting-quick-theme-item-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.setting-quick-theme-item-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: var(--box-border-radius);
+}
+
+.setting-quick-theme-item-color {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--box-border-radius);
+}
+
+.setting-quick-theme-item-color-accent {
+  width: 20px;
+  height: 6px;
+  border-radius: 2px;
+  margin-bottom: 6px;
+}
+
+.settings-screen-preview {
+  position: relative;
+  width: 240px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-image .3s ease .3s;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-screen-preview-inner {
+  position: relative;
+  padding-top: 56.25%;
+  overflow: hidden;
+  border: 4px solid black;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-screen-preview-taskbar {
+  position: absolute;
+  bottom: 0;
+  margin-left: -10%;
+  width: 120%;
+  height: 10px;
+  background-color: var(--window-background);
+}
+
+html.glass .settings-screen-preview-taskbar {
+  backdrop-filter: blur(var(--box-blur));
+}
+
+.settings-screen-preview-card {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  width: 70px;
+  height: 80px;
+  background-color: var(--theme-background);
+  border-radius: var(--box-border-radius);
+  padding: 10px;
+}
+
+.settings-screen-preview-card-placeholder-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--label-color);
+  margin-bottom: 10px;
+}
+
+.settings-screen-preview-card-placeholder-line.half {
+  width: 50%;
+}
+
+.settings-screen-preview-card-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 30px;
+  height: 10px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+}
+
+.settings-recent-images-header {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.settings-recent-images {
+  gap: 10px;
+}
+
+.settings-recent-image {
+  width: 100px;
+  height: 100px;
+  padding: 2px;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-recent-image-inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-recent-image:first-child {
+  border: 2px solid var(--accent-color);
+}
+
+/* .settings-recent-image:not(:last-child) {
+  margin-right: 10px;
+} */
+
+/* Photos */
+
 .app-photos {
   background-color: #000;
 }
@@ -44,8 +446,12 @@
   right: 10px;
   bottom: 50px;
   width: 340px;
-  padding: 20px;
   animation-name: slideLeft;
+}
+
+.action-center-top {
+  padding: 20px;
+  padding-bottom: 0;
 }
 
 .action-center-buttons {
@@ -80,7 +486,7 @@
   background: var(--blue-color);
 }
 
-.action-center-button.active svg:not(.no-stroke)  {
+.action-center-button.active svg:not(.no-stroke) {
   stroke: #fff !important;
 }
 
@@ -98,7 +504,7 @@
 }
 
 .action-center-sliders {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .action-center-slider {
@@ -109,4 +515,36 @@
   padding-right: 10px;
   display: flex;
   align-items: center;
+}
+
+.action-center-footer {
+  padding: 10px 13px;
+  background: var(--mask-color);
+}
+
+.action-center-footer-item {
+  padding: 3px;
+  border-radius: var(--box-border-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-center-footer-item:hover {
+  background: var(--hover-bg-color);
+}
+
+.action-center-batery svg {
+  width: 24px;
+  height: 24px;
+}
+
+.action-center-batery-text {
+  padding-left: 5px;
+  font-size: 11px;
+  line-height: 0;
+}
+
+.action-center-config {
+  margin-left: auto;
 }

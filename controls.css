@@ -1,0 +1,38 @@
+/* TextBox */
+
+.textbox {
+  border-radius: var(--box-border-radius);
+  box-shadow: 0 0 1px var(--box-shadow-color), -1px 0 1px -1px var(--box-shadow-color), 1px 0 1px -1px var(--box-shadow-color), 0 2px 1px var(--box-shadow-color);
+  overflow: hidden;
+  background: var(--theme-background-secondary);
+}
+
+.textbox-input {
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  color: var(--primary-text-color);
+  font-size: inherit;
+  letter-spacing: inherit;
+}
+
+.textbox-input::placeholder {
+  font: inherit;
+  color: var(--label-color);
+  font-size: 11px;
+}
+
+.textbox svg {
+  width: 12px;
+  height: 12px;
+}
+
+
+/* SearchBox */
+
+.search-box-icon {
+  padding: 0 5px;
+}
