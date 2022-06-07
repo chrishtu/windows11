@@ -1,22 +1,80 @@
-import wallpapers from "./data/wallpapers"
+import wallpapers, { IWallpaerImageInfo } from "./data/wallpapers"
+import { fillObject } from "./utils"
+
+type BackgroundStyle = 'fill' | 'fit' | 'stretch' | 'center' | 'tile' | 'span'
 
 interface AppState {
-  [key: string]: any
+  [key: symbol | string]: any
+  backgroundStyle?: BackgroundStyle
 }
 
-let appState: AppState = {
+export interface ITheme {
+  name: string
+  background: {
+    image?: IWallpaerImageInfo
+    color?: string
+  }
+  color: {
+    primary?: string
+    secondary?: string
+    accent?: string
+  }
+  dark: boolean
+  transparency: boolean
+}
+
+const DefaultLightTheme = {
+  name: 'Default Light',
+  background: {
+    image: wallpapers[15],
+    color: '#eee'
+  },
+  color: {
+    primary: '#00bcd4',
+    secondary: '#ffffff',
+    accent: '#5dccff',
+  },
+  dark: false,
+  transparency: true,
+}
+
+const DefaultDarkTheme = {
+  name: 'Default Dark',
+  background: {
+    image: wallpapers[9],
+    color: '#333'
+  },
+  color: {
+    primary: '#00bcd4',
+    secondary: '#ffffff',
+    accent: '#5dccff',
+  },
+  dark: true,
+  transparency: true,
+}
+
+const defaultState: AppState = {
   darktheme: false,
-  transparency: false,
-  backgroundImage: wallpapers[15].path,
+  transparency: true,
+  backgroundImage: wallpapers[15],
+  backgroundImageStyle: "fill",
   volume: 100,
   brightness: 100,
-  nightlight: false
+  nightlight: false,
+  themes: [
+    DefaultLightTheme,
+    DefaultDarkTheme
+  ],
+  currentThemeIndex: 0
 }
+
+let appState: AppState = {}
 
 try {
   const data = localStorage.getItem('preferences')
   if (data)
-    appState = JSON.parse(data)
+    appState = fillObject(JSON.parse(data), defaultState)
+    // console.log(appState);
 } catch (e) {
 
 }

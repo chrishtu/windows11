@@ -4,6 +4,7 @@ import eventNames from "../../eventNames";
 import { IWindow } from "../../interfaces/window";
 import { createWindow } from "../../proceduce";
 import { closeThumbnails, getThumbnailElement, hideThumbnail, preventHidden, TaskBarAppThumbnails } from "./thumbnail";
+import { closeContextMenu } from "./utils";
 
 export interface AppInfo {
   name: string,
@@ -35,6 +36,7 @@ export interface ITaskbarAppItem {
 
 interface ITaskbarAppItemEvents {
   onclick?: Function,
+  oncontextmenu?: Function,
   onmousedown?: Function,
   onRemove?: Function
 }
@@ -68,6 +70,7 @@ export function TaskbarSystemAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarA
 
   props.onmousedown = (e: MouseEvent) => e.stopImmediatePropagation()
   props.onclick = events?.onclick
+  props.oncontextmenu = events?.oncontextmenu
 
   appItem = createElement('div', props, createElement('div', iconProps))
 
@@ -91,6 +94,7 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
   let showTimeout: NodeJS.Timeout
 
   props.onmousedown = (e: MouseEvent) => {
+    closeContextMenu()
     e.stopPropagation()
     triggerEvent(eventNames.closePopup)
 

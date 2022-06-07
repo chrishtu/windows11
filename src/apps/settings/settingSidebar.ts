@@ -98,6 +98,8 @@ export function SettingSidebar(onItemClick: SettingNavCallback) {
 
         let newActiveElem = navItemElems[routeIndex]
 
+        lastActiveIndex = routeIndex
+
         newActiveElem.classList.add('active')
         lastActiveItem = newActiveElem
       }

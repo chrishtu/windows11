@@ -3,6 +3,7 @@ import { triggerEvent } from "../../event"
 import eventNames from "../../eventNames"
 import calendar from "../calendar/calendar"
 import { dayNames, monthNames } from "../constant"
+import { closeContextMenu } from "./utils"
 
 function formatDate(date: Date) {
   return `${dayNames[date.getDay()]}, ${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
@@ -10,6 +11,7 @@ function formatDate(date: Date) {
 
 export default function TaskBarDate() {
   function onclick() {
+    closeContextMenu()
     triggerEvent(eventNames.closePopup, calendar.id)
     calendar.toggleShow()
   }

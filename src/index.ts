@@ -3,15 +3,20 @@ import { AppInfo } from "./apps/appInfo";
 import { Apps } from "./apps/app";
 import { getState } from "./store";
 import desktop from "./components/desktop/desktop";
-import { enableDarkTheme, getExt, isWebkit, setTransparencyEffect } from "./utils";
+import { getExt, isWebkit } from "./utils";
 import { ProcessInfo } from "./proceduce";
 import { FileMapping } from "./apps/fileMapping";
 import eventNames from "./eventNames";
 import DesktopScreen from "./components/DesktopScreen";
+import { enableDarkTheme, setTransparencyEffect } from "./utils/common";
 
 if (isWebkit) {
   document.documentElement.classList.add('isWebkit')
 }
+
+document.addEventListener('contextmenu', e => {
+  e.preventDefault()
+})
 
 const state = getState(['darktheme', 'transparency', 'backgroundImage', 'brightness', 'nightlight'])
 

@@ -77,3 +77,11 @@ export function createFlagmentElement(children: HTMLCollection | any): DocumentF
   }
   return element
 }
+
+export function removeChildren(element: Node) {
+  let child = element.firstChild
+  while (child) {
+    element.removeChild(child)
+    child = element.firstChild
+  }
+}

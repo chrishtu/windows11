@@ -1,6 +1,6 @@
 import { chevronRightIcon } from "../../components/icons/icons";
 import Window from "../../components/window/window";
-import createElement from "../../createElement";
+import createElement, { removeChildren } from "../../createElement";
 import { IWindow } from "../../interfaces/window";
 import { IAppInfo } from "../appInfo";
 import { ISettingContent, ISettingContentMap, settingsInfo } from "./common";
@@ -125,7 +125,8 @@ function SettingContent(onNavItemClick: SettingNavCallback) {
 
     settingContentHeading.setRoute(routesHeading.routes)
 
-    mainContent.innerHTML = ''
+    removeChildren(mainContent)
+    mainContent.scrollTop = 0
     mainContent.appendChild(content.element)
   }
 

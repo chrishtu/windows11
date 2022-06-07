@@ -10,6 +10,8 @@ import { AppInfo } from "../../apps/appInfo";
 import ActionCenter from "../actionCenter/actionCenter";
 import eventNames from "../../eventNames";
 import startMenu from "../../apps/startMenu";
+import ContextMenu from "../contextMenu/menu";
+import { closeContextMenu } from "./utils";
 
 function onmouseover() {
   //To Window Manager
@@ -39,15 +41,51 @@ interface ITaskbarAppItemData {
 
 function TaskbarSystemApp() {
   function onStartMenuAppItemClick() {
+    closeContextMenu()
     triggerEvent(eventNames.closePopup, startMenu.id)
     startMenu.toggleShow()
+  }
+
+  function onStartButtonContextMenu(e: MouseEvent) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, [
+      { text: 'Apps and Features' },
+      { text: 'Mobility Center' },
+      { text: 'Power Options' },
+      { text: 'Event Viewer' },
+      { text: 'System' },
+      { text: 'Device Manager' },
+      { text: 'Network Connection' },
+      { text: 'Disk Management' },
+      { text: 'Computer Management' },
+      { text: 'Command Prompt(Admin)' },
+      { divider: true },
+      { text: 'Task Manager' },
+      { text: 'Settings' },
+      { text: 'File Explorer' },
+      { text: 'Search' },
+      { text: 'Run' },
+      { divider: true },
+      {
+        text: 'Shutdown or signout', children: [
+          { text: 'Sign out' },
+          { text: 'Sleep' },
+          { text: 'Shut down' },
+          { text: 'Restart' },
+        ]
+      },
+      { text: 'Desktop' },
+    ])
   }
 
   const taskbarSystemAppItems: Array<ITaskbarSystemAppItemData> = [
     {
       name: 'startMenu',
       item: TaskbarSystemAppItem({ isSystemApp: true, name: 'start-menu', productName: 'Start', icon: windowIcon, iconType: 'svg' }, {
-        onclick: onStartMenuAppItemClick
+        onclick: onStartMenuAppItemClick,
+        oncontextmenu: onStartButtonContextMenu
       })
     }
   ]
@@ -253,6 +291,7 @@ function _Taskbar() {
               className: 'taskbar-item flex items-center content-center flex-shrink-0',
               onmousedown: e => e.stopPropagation(),
               onclick: () => {
+                closeContextMenu()
                 triggerEvent(eventNames.closePopup, ActionCenter.id)
                 ActionCenter.toggleShow()
               }

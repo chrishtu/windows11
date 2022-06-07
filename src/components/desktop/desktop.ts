@@ -1,18 +1,23 @@
 import { AppInfo } from "../../apps/appInfo";
 import { FileMapping } from "../../apps/fileMapping";
 import createElement, { appendChild, setStyle } from "../../createElement";
+import { IWallpaerImageInfo } from "../../data/wallpapers";
 import { triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { WindowBounds } from "../../interfaces/window";
 import { ProcessInfo, startProcess } from "../../proceduce";
-import { setState } from "../../store";
+import { getState, setState } from "../../store";
 import { getExt, getFileName } from "../../utils";
+import { setBackgroundImageStyle } from "../../utils/common";
 import { taskbarHeight } from "../constant";
+import ContextMenu from "../contextMenu/menu";
 import screenInfo from "../screenInfo";
+import { DesktopMenuItemTemplate } from "./contextMenuItems";
 
 interface Desktop {
   element: HTMLDivElement
-  setBackgroundImage(path: string): void
+  setBackgroundImage(imageInfo: IWallpaerImageInfo, temp?: boolean): void
+  setBackgroundStyle(style: string): void
   showShape(position: string, winBound: WindowBounds): void
   removeShape(): void
 }
@@ -135,17 +140,28 @@ function DesktopItems() {
   return desktopItemsElem
 }
 
+function onDesktopContextMenu(e: MouseEvent) {
+  e.preventDefault()
+
+  ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, DesktopMenuItemTemplate)
+}
+
 function Desktop(): Desktop {
   let shapeElem = createElement('div', {
     className: 'desktop-shape-presentation'
   })
 
   let desktop = createElement('div', {
-    className: 'desktop fade-in'
+    className: 'desktop fade-in',
+    oncontextmenu: onDesktopContextMenu
   })
 
   let showTimeout: NodeJS.Timeout
   let isShow = false
+
+  const { backgroundImageStyle } = getState('backgroundImageStyle')
+
+  setBackgroundStyle(backgroundImageStyle)
 
   appendChild(document.body, desktop)
   appendChild(document.body, shapeElem)
@@ -154,23 +170,18 @@ function Desktop(): Desktop {
     appendChild(desktop, DesktopItems())
   }, 500)
 
-  function setBackgroundImage(path: string) {
-    setTimeout(() => {
-      desktop.classList.remove('fade-in')
+  function setBackgroundImage(imageInfo: IWallpaerImageInfo, isTemp?: boolean) {
+    const image = new Image()
+    image.onload = () => {
+      desktop.style.backgroundImage = `url("${imageInfo.path}")`
 
-      void desktop.offsetWidth
+      triggerEvent(eventNames.backgroundImageChange, imageInfo.path)
+    }
+    image.src = imageInfo.path
 
-      const image = new Image()
-      image.onload = () => {
-        desktop.classList.add('fade-in')
-        desktop.style.backgroundImage = `url("${path}")`
-
-        triggerEvent(eventNames.backgroundImageChange, path)
-      }
-      image.src = path
-    }, 250)
-
-    setState({ backgroundImage: path })
+    if (!isTemp) {
+      setState({ backgroundImage: imageInfo })
+    }
   }
 
   function showShape(position: string, _winBound: WindowBounds) {
@@ -312,9 +323,14 @@ function Desktop(): Desktop {
     shapeElem.style.height = '0'
   }
 
+  function setBackgroundStyle(style: string) {
+    setBackgroundImageStyle(desktop, style)
+  }
+
   return {
     element: desktop,
     setBackgroundImage,
+    setBackgroundStyle,
     showShape,
     removeShape
   }

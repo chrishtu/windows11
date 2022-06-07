@@ -38,7 +38,10 @@ const Explorer = (appInfo: IAppInfo, _args?: any) => {
                   createElement('div', {}, 'This PC'),
                   createElement('button', {
                     onclick: () => win.setTitle(Date.now().toString(16))
-                  }, 'Change title')
+                  }, 'Change title'),
+                  createElement('button', {
+                    onclick: () => win.toggleFullscreen()
+                  }, 'Toggle Fullscreen')
                 ]
               )
             )

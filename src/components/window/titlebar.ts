@@ -8,6 +8,8 @@ interface TitleBarEvents extends TitleBarButtonsEvents {
   onDoubleClick: () => void
   onVisible?(): void
   onHidden?(): void
+  onContextMenu?(e?: MouseEvent | PointerEvent): void
+  onTitleFocus?(): void
 }
 
 export interface ITitleBar {
@@ -26,7 +28,11 @@ export default function TitleBar(options: WindowTitleBar, events: TitleBarEvents
   let windowTitle = Title({
     title: options.title,
     disableMaximize: options.disableMaximize
-  }, events.onDoubleClick)
+  },
+    events.onDoubleClick,
+    events.onContextMenu,
+    events.onTitleFocus
+  )
   let windowButtons = TitleBarButtons(
     {
       isMaximized: options.maximized,

@@ -1,3 +1,4 @@
+import { getFileName } from '../../utils'
 import { SettingNavCallback } from './contents/system/settingNav'
 
 export const settingId = 'settings'
@@ -16,7 +17,10 @@ export interface SystemNavItemInfo {
   text: string
   desc: string
   path: string
-  optional?: any
+  control?: any
+  content?: any
+  isNav?: boolean
+  expanded?: boolean
 }
 
 export interface ISettingContent {
@@ -102,7 +106,44 @@ export const settingsInfo: SettingsInfoIndex = {
   },
   personalization: {
     icon: '',
-    text: 'Personalization'
+    text: 'Personalization',
+    items: {
+      background: {
+        icon: '',
+        text: 'Background',
+        desc: 'Change desktop background image'
+      },
+      colors: {
+        icon: '',
+        text: 'Colors',
+        desc: 'Accent color, transparency, dark theme'
+      },
+      lockScreen: {
+        icon: '',
+        text: 'Lock Screen',
+        desc: 'Background image, notifications'
+      },
+      theme: {
+        icon: '',
+        text: 'Themes',
+        desc: 'Customize window theme'
+      },
+      font: {
+        icon: '',
+        text: 'Fonts',
+        desc: 'Browser installed fonts or install new fonts'
+      },
+      start: {
+        icon: '',
+        text: 'Start',
+        desc: 'Pinned apps, remommended'
+      },
+      taskbar: {
+        icon: '',
+        text: 'Taskbar',
+        desc: 'Taskbar arrangement, position'
+      }
+    }
   },
   apps: {
     icon: '',
@@ -151,3 +192,8 @@ export const navItems: Array<NavItemInfo> = Object.keys(settingsInfo).map((key, 
 
   return obj
 })
+
+
+export function getThumbnailFromImage(path: string) {
+  return 'imgs/Wallpapers/Thumbnails/' + getFileName(path)
+}

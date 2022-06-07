@@ -1,6 +1,4 @@
-import { triggerEvent } from "./event";
-import eventNames from "./eventNames";
-import { getState, setState } from "./store";
+import { IIndexable } from "./interfaces/utils";
 
 export function randomIntFromInterval(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -36,38 +34,6 @@ export function readFile(path: string, cb: FileCallback) {
 
 export function getFileName(path: string) {
   return path.substring(path.lastIndexOf('/') + 1, path.length)
-}
-
-export function enableDarkTheme(darktheme: boolean) {
-  document.documentElement.classList[darktheme ? 'add' : 'remove']('dark')
-
-  setState({ darktheme })
-
-  triggerEvent(eventNames.themeChange, darktheme)
-}
-
-export function toggleTheme(cb?: (isDark: boolean) => void) {
-  let { darktheme } = getState('darktheme')
-
-  enableDarkTheme(!darktheme)
-
-  if (typeof cb === 'function') {
-    cb(!darktheme)
-  }
-}
-
-export function setTransparencyEffect(transparency: boolean) {
-  document.documentElement.classList[transparency ? 'add' : 'remove']('glass')
-
-  setState({ transparency })
-
-  triggerEvent(eventNames.transparentChange, transparency)
-}
-
-export function toggleTransparency() {
-  const { transparency } = getState('transparency')
-
-  setTransparencyEffect(!transparency)
 }
 
 export function debounce(func: Function, delay: number) {
@@ -129,4 +95,20 @@ export function throttle(func: Function, options: ThrottleOptions) {
 
 export function round(value: number, decimals: number) {
   return Number(Math.round(parseFloat(value + 'e' + decimals)) + 'e-' + decimals);
+}
+
+export function fillObject(object: IIndexable, defaultObject: IIndexable) {
+  if (typeof object === 'object') {
+    for (let item in defaultObject) {
+      if (typeof object[item] !== typeof defaultObject[item]) {
+        object[item] = defaultObject[item]
+      } else {
+        if (typeof object[item] === 'object') {
+          fillObject(object[item], defaultObject[item])
+        }
+      }
+    }
+  }
+
+  return object
 }

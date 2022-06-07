@@ -2,12 +2,13 @@ import createElement from "../../createElement"
 import { triggerEvent } from "../../event"
 import eventNames from "../../eventNames"
 import clock from "../clock/clock"
-import { formatAMPM } from "./utils"
+import { closeContextMenu, formatAMPM } from "./utils"
 
 export default function TaskBarTime() {
   const taskbarTime = createElement('div', {
     className: 'taskbar-item taskbar-date-time taskbar-time h-full flex items-center',
     onclick: () => {
+      closeContextMenu()
       triggerEvent(eventNames.closePopup, clock.id)
       clock.toggleShow()
     },

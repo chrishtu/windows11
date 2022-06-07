@@ -1,7 +1,7 @@
 import { chevronLeftIcon, chevronRightIcon, powerIcon, settingIcon } from "../components/icons/icons";
 import Popup from "../components/popup/popup";
 import createElement from "../createElement";
-import { createWindow } from "../proceduce";
+import { createWindow, startProcess } from "../proceduce";
 import { AppInfo, AppInfoGroup, IAppInfo } from "./appInfo";
 
 interface StartMenuOptions {
@@ -297,7 +297,11 @@ function StartMenu(options?: StartMenuOptions) {
         },
           [
             createElement('div', {
-              className: 'start-menu-user flex items-center'
+              className: 'start-menu-user flex items-center',
+              onclick: () => {
+                startProcess({ type: 'app', ...AppInfo.settings, args: 'accounts' })
+                startMenu.toggleShow()
+              }
             },
               [
                 createElement('div', {

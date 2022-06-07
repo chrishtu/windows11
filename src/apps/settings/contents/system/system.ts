@@ -2,14 +2,9 @@ import createElement from "../../../../createElement";
 import { listenEvent } from "../../../../event";
 import eventNames from "../../../../eventNames";
 import { getState } from "../../../../store";
-import { getFileName } from "../../../../utils";
-import { settingsInfo, SystemNavItemInfo } from "../../common";
+import { getThumbnailFromImage, settingsInfo, SystemNavItemInfo } from "../../common";
 import { SettingHelp } from "../settingHelp";
 import SettingNav, { SettingNavCallback } from "./settingNav";
-
-function getThumbnailFromImage(path: string) {
-  return 'imgs/Wallpapers/Thumbnails/' + getFileName(path)
-}
 
 function SettingSystemDesktop() {
   const { backgroundImage } = getState('backgroundImage')
@@ -17,7 +12,7 @@ function SettingSystemDesktop() {
   let img: string
 
   if (backgroundImage) {
-    img = getThumbnailFromImage(backgroundImage)
+    img = getThumbnailFromImage(backgroundImage.path)
   }
 
   let systemBackgroundElem: HTMLDivElement
@@ -102,6 +97,7 @@ export default function System(onNavItemClick: SettingNavCallback) {
     const item = navItems[key]
 
     return {
+      isNav: true,
       name: key,
       text: item.text,
       icon: item.icon,

@@ -1,10 +1,10 @@
-interface wallpaerImageInfo {
+export interface IWallpaerImageInfo {
   name: string
   path: string
   thumbnailPath: string
 }
 
-const wallpapers: Array<wallpaerImageInfo> = []
+const wallpapers: Array<IWallpaerImageInfo> = []
 
 for (let index = 1; index <= 22; index++) {
   const name = 'IMG' + index + '.jpg'

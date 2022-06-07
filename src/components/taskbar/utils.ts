@@ -10,3 +10,9 @@ export function formatAMPM(date: Date, showSecond = false) {
   let strTime = hours + ':' + minutes + (showSecond ? ':' + seconds : '') + ' ' + ampm
   return strTime
 }
+
+export function closeContextMenu() {
+  if (window.lastContextMenu) {
+    window.lastContextMenu.close()
+  }
+}

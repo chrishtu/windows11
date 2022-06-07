@@ -1,4 +1,5 @@
 import createElement from "../../../../../createElement";
+import { SystemNavItemInfo } from "../../../common";
 import { SettingGroup } from "../../../settingGroup";
 import { SettingHelp } from "../../settingHelp";
 
@@ -10,8 +11,9 @@ export default function Display() {
 
   const basePath = () => 'settings/system/'
 
-  const items = [
+  const items: Array<SystemNavItemInfo> = [
     {
+      isNav: true,
       path: '',
       text: 'Night light',
       desc: 'Use warmer colors to help block blue light',
@@ -19,6 +21,7 @@ export default function Display() {
       name: 'nightlight'
     },
     {
+      isNav: true,
       path: '',
       text: 'HDR',
       desc: 'More about HDR',

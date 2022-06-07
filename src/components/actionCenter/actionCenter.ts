@@ -3,7 +3,7 @@ import { listenEvent, triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { createWindow } from "../../proceduce";
 import { getState, setState } from "../../store";
-import { toggleTransparency, toggleTheme } from "../../utils";
+import { toggleTheme, toggleTransparency } from "../../utils/common";
 import DesktopScreen from "../DesktopScreen";
 import { airplaneModeIcon, batteryIcon, bluetoothIcon, castIcon, darkThemeIcon, locationIcon, moonIcon, nightLightIcon, settingIcon, sunIcon, transparencyIcon, volumeIcon2, wifiIcon } from "../icons/icons";
 import Popup from "../popup/popup";

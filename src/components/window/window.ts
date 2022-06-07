@@ -9,6 +9,9 @@ import { ResizeEvents } from "../../interfaces/events";
 import Taskbar from "../taskbar/taskbar";
 import desktop from "../desktop/desktop";
 import screenInfo from "../screenInfo";
+import { ITemplate } from "../contextMenu/interfaces";
+import ContextMenu from "../contextMenu/menu";
+import { maximizeDownIcon, maximizeIcon, minimizeIcon, closeIcon } from "./icon";
 
 const maxZIndex = 100000
 const edgeWidth = 30
@@ -100,6 +103,7 @@ export default function Window(options: WindowOptions) {
     autoHide: options.autoHideTitleBar
   }, {
     onDoubleClick,
+    onContextMenu,
     onMinimizeButtonClick,
     onMaximizeButtonClick,
     onCloseButtonClick,
@@ -216,6 +220,44 @@ export default function Window(options: WindowOptions) {
     bottomRight: false
   }
   let isLeaveEdge = true
+
+  const getTitlebarContextTemplate = (): Array<ITemplate> => [
+    {
+      text: 'Restore',
+      icon: createElement('i', { className: 'window-titlebar-context-icon', innerHTML: maximizeIcon }),
+      disabled: !maximized,
+      onClick: () => {
+        toggleMaximize()
+      },
+      emphasis: maximized
+    },
+    { text: 'Move', disabled: true },
+    { text: 'Size', disabled: true },
+    {
+      text: 'Minimize',
+      icon: createElement('i', { className: 'window-titlebar-context-icon', innerHTML: minimizeIcon }),
+      onClick: () => {
+        hide()
+      }
+    },
+    {
+      text: 'Maximize',
+      icon: createElement('i', { className: 'window-titlebar-context-icon', innerHTML: maximizeDownIcon }),
+      onClick: () => {
+        toggleMaximize()
+      },
+      disabled: maximized
+    },
+    { divider: true },
+    {
+      text: 'Close',
+      icon: createElement('i', { className: 'window-titlebar-context-icon', innerHTML: closeIcon }),
+      onClick: () => {
+        close()
+      },
+      shortcut: 'Alt+X'
+    },
+  ]
 
   const resizeDisabledClassName = (options.disableResize ? ' disabled' : '')
 
@@ -482,9 +524,9 @@ export default function Window(options: WindowOptions) {
         }
 
         if (maximized) {
+          maximized = false
           titlebar.setMaximize(maximized)
           _window.classList.remove('window-maximized')
-          maximized = false
         }
       }
     }, 0)
@@ -676,11 +718,25 @@ export default function Window(options: WindowOptions) {
       }
 
       titlebar.setMaximize(maximized)
+
+      _window.focus()
     }
   }
 
   function onDoubleClick() {
     toggleMaximize()
+  }
+
+  function onContextMenu(e: MouseEvent) {
+    e.preventDefault()
+
+    ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, getTitlebarContextTemplate(), false, () => {
+      setTimeout(() => {
+        if (_window && !minimized) {
+          focus()
+        }
+      }, 10)
+    })
   }
 
   function setBounds(bounds: WindowBounds) {

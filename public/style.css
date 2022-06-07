@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   user-select: none;
 }
@@ -27,16 +29,16 @@
   --gray-color-5: rgb(229, 229, 234);
   --gray-color-6: rgb(242, 242, 247);
   --accent-color: var(--blue-color);
-  --nav-item-bg-color: #ddd;
+  --nav-item-bg-color: #fafbfc;
   --box-blur: 20px;
   --box-border-radius: 5px;
-  --box-drop-shadow: 0px 3px 10px rgba(0, 0, 0, .5);
+  --box-drop-shadow: 3px 3px 6px rgba(0, 0, 0, .5);
   --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
   --scrollbar-color: rgba(0, 0, 0, .5);
 }
 
 :root.glass {
-  --nav-item-bg-color: #eee;
+  --nav-item-bg-color: #f2f2f4;
 }
 
 :root.dark {
@@ -169,6 +171,10 @@
   align-items: center;
 }
 
+.items-end {
+  align-items: flex-end;
+}
+
 .content-center {
   justify-content: center;
 }
@@ -257,7 +263,8 @@
   background-size: cover;
 }
 
-html, body {
+html,
+body {
   font-family: 'Segoe UI', sans-serif;
   letter-spacing: .4px;
   font-size: 12px;
@@ -285,6 +292,7 @@ body {
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+  transition: background-image .3s ease .3s;
 }
 
 .desktop.fade-in {
@@ -302,6 +310,10 @@ body {
   transform-origin: center;
   box-shadow: var(--box-drop-shadow);
   border-radius: var(--box-border-radius);
+}
+
+html.glass .desktop-shape-presentation {
+  backdrop-filter: blur(var(--box-blur));
 }
 
 .desktop-shape-presentation.show {
@@ -373,7 +385,8 @@ input[type="checkbox"] {
   padding: 5px 0;
 }
 
-.checkbox-input, .checkbox-label {
+.checkbox-input,
+.checkbox-label {
   display: inline;
   vertical-align: middle;
 }
@@ -468,7 +481,7 @@ html {
   --primary-text-color: #000;
   --text-disabled: #aaa;
   --button-bg-color: #fff;
-  --button-color: #555;
+  --button-color: #111;
   --button-bg-color-hover: #ccc;
   --titlebar-text-color: #666;
   --window-background: #f8f8f8;
@@ -482,7 +495,7 @@ html {
   --window-button-icon-color: #aaa;
   --window-button-icon-color-disabled: #9a9a9a;
   --titlebar-height: 29px;
-  --border-color: rgba(0, 0, 0, .1);
+  --border-color: rgba(0, 0, 0, .05);
   --window-icon-color: #000;
   --taskbar-item-color-hover: rgba(255, 255, 255, .6);
   --taskbar-background: #f1f2f3;
@@ -501,7 +514,7 @@ html .window.focus {
   --window-background: #fff;
   --theme-background: #fff;
   --theme-background-primary: #f7f7f7;
-  --border-color: rgba(0, 0, 0, .2);
+  --border-color: rgba(0, 0, 0, .08);
 }
 
 html.dark {
@@ -541,7 +554,7 @@ html.dark .window.focus {
   --theme-background: #333;
   --theme-background-primary: #3a3a3a;
   --window-button-icon-color: #ddd;
-  --border-color: rgba(0, 0, 0, .3);
+  --border-color: rgba(0, 0, 0, .1);
 }
 
 html.glass {
@@ -553,6 +566,7 @@ html.glass {
   --hover-bg-color: rgba(120, 120, 120, .6);
   --active-color: #fff;
   --active-bg-color: rgba(120, 120, 120, .8);
+  --border-color: rgba(0, 0, 0, .1);
 }
 
 html.glass .window.focus {
@@ -568,6 +582,7 @@ html.glass.dark {
   --active-bg-color: rgba(192, 192, 192, .7);
   --mask-color: rgba(0, 0, 0, .05);
   --box-shadow-color: rgba(192, 192, 192, .9);
+  --border-color: rgba(0, 0, 0, .05);
 }
 
 html.dark.glass .window.focus {
@@ -614,7 +629,8 @@ html.dark.glass .window.focus {
   background: var(--window-background);
 }
 
-.window.window-maximized .window-background, .window.win-snap .window-background {
+.window.window-maximized .window-background,
+.window.win-snap .window-background {
   border-radius: 0;
 }
 
@@ -626,7 +642,8 @@ html.dark.glass .window.focus {
   transition: transform .4s var(--animation-timing-function), opacity .2s var(--animation-timing-function);
 }
 
-.window.window-maximized, .window.window-restore-down {
+.window.window-maximized,
+.window.window-restore-down {
   transition: top .1s var(--animation-timing-function), left .1s var(--animation-timing-function), width .1s var(--animation-timing-function), height .1s var(--animation-timing-function);
   will-change: auto;
 }
@@ -750,7 +767,8 @@ html.dark.glass .window.focus {
   background-color: var(--window-button-close-hover);
 }
 
-.window-titlebar-button.window-titlebar-close-button:hover svg, .window-titlebar-button.window-titlebar-close-button:active svg {
+.window-titlebar-button.window-titlebar-close-button:hover svg,
+.window-titlebar-button.window-titlebar-close-button:active svg {
   fill: #fff;
 }
 
@@ -774,7 +792,8 @@ html.dark.glass .window.focus {
   padding-left: 15px;
 }
 
-.window.window-maximized .window-inner, .window.win-snap .window-inner {
+.window.window-maximized .window-inner,
+.window.win-snap .window-inner {
   border-radius: 0;
 }
 
@@ -796,7 +815,8 @@ html.glass .window {
   border-radius: 0 !important;
 }
 
-.window.transparent .window-inner, .window.transparent .window-background {
+.window.transparent .window-inner,
+.window.transparent .window-background {
   visibility: hidden;
   transition: visibility .3s ease .3s;
 }
@@ -936,7 +956,7 @@ html.glass .window {
   height: 6px;
 }
 
-button {
+button, .button {
   color: var(--button-color);
   background-color: var(--button-bg-color);
   border: 1px solid var(--border-color);
@@ -947,13 +967,17 @@ button {
   font-weight: 400;
   cursor: pointer;
   letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 7px;
 }
 
-button:hover {
+button:hover, .button:hover {
   background-color: var(--button-bg-color-hover);
 }
 
-button:focus {
+button:focus, .button:focus {
   border-color: #007efb;
 }
 
@@ -1050,7 +1074,8 @@ html.glass .taskbar {
   background-position: center;
 }
 
-.taskbar-app-item:hover, .taskbar-app-item.active {
+.taskbar-app-item:hover,
+.taskbar-app-item.active {
   background-color: var(--taskbar-item-color-hover);
 }
 
@@ -1234,7 +1259,8 @@ html.glass .taskbar {
   transform: translateX(-100%);
 }
 
-.start-menu-apps-list-item, .start-menu-apps-list-label {
+.start-menu-apps-list-item,
+.start-menu-apps-list-label {
   height: 36px;
   padding: 0 10px;
   border-radius: var(--box-border-radius);
@@ -1248,7 +1274,8 @@ html.glass .taskbar {
   font-weight: 400;
 }
 
-.start-menu-apps-list-item:hover, .start-menu-apps-list-label:hover {
+.start-menu-apps-list-item:hover,
+.start-menu-apps-list-label:hover {
   background: var(--hover-bg-color);
 }
 
@@ -1282,7 +1309,8 @@ html.glass .taskbar {
   cursor: pointer;
 }
 
-.start-menu-button-icon, .start-menu-button-icon svg {
+.start-menu-button-icon,
+.start-menu-button-icon svg {
   width: 14px;
   height: 14px;
 }
@@ -1306,7 +1334,8 @@ html.glass .taskbar {
   background: var(--hover-bg-color);
 }
 
-.start-menu-pinned-apps-item-icon, .start-menu-recommended-apps-item-icon {
+.start-menu-pinned-apps-item-icon,
+.start-menu-recommended-apps-item-icon {
   width: 40px;
   height: 40px;
   background-repeat: no-repeat;
@@ -1400,31 +1429,6 @@ html.glass .taskbar {
   padding-bottom: 10px;
 }
 
-.background-items {
-  margin: 10px 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 20px;
-}
-
-.background-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.background-item-image {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* border: 1px solid var(--border-color); */
-  border-radius: var(--box-border-radius);
-  overflow: hidden;
-}
-
 .screen {
   position: fixed;
   top: 0;
@@ -1471,7 +1475,8 @@ html.glass .taskbar {
   background-color: #ddd;
 }
 
-.slider-thumb-primary, .slider-thumb-secondary {
+.slider-thumb-primary,
+.slider-thumb-secondary {
   position: absolute;
   top: 0;
   left: 0;
@@ -1491,7 +1496,8 @@ html.glass .taskbar {
   display: none;
 }
 
-.slider-thumb-primary-inner, .slider-thumb-secondary-inner {
+.slider-thumb-primary-inner,
+.slider-thumb-secondary-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -1510,7 +1516,8 @@ html.glass .taskbar {
   border-radius: 50%;
 }
 
-.slider-thumb-primary-inner:hover:after, .slider-thumb-primary-inner:active:after {
+.slider-thumb-primary-inner:hover:after,
+.slider-thumb-primary-inner:active:after {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -1541,7 +1548,8 @@ html.glass .taskbar {
   display: initial;
 }
 
-.slider:hover .slider-thumb-secondary-text, .slider.hoding .slider-thumb-secondary-text {
+.slider:hover .slider-thumb-secondary-text,
+.slider.hoding .slider-thumb-secondary-text {
   display: initial;
 }
 
@@ -1630,7 +1638,9 @@ html.glass .taskbar {
   transform: rotate(90deg)
 }
 
-.outer-clock-face::before, .outer-clock-face::after, .clock-marking {
+.outer-clock-face::before,
+.outer-clock-face::after,
+.clock-marking {
   content: '';
   position: absolute;
   width: 4px;
@@ -1713,7 +1723,7 @@ html.glass .taskbar {
 }
 
 .clock-hand.clock-second-hand {
-  background: #ee791a;
+  background: #5dccff;
   width: 45%;
   height: 2px;
   z-index: 5;
@@ -1747,4 +1757,9 @@ html.glass .taskbar {
   font-weight: bold;
   font-size: 18px;
   text-align: center;
+}
+
+.selected-item {
+  border: 2px solid var(--primary-text-color);
+  border-radius: var(--box-border-radius);
 }

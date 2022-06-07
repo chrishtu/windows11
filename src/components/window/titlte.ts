@@ -5,11 +5,14 @@ interface WindowTitleTextOptions {
   disableMaximize?: boolean
 }
 
-export default function Title(options: WindowTitleTextOptions, onDoubleClick?: Function) {
+export default function Title(options: WindowTitleTextOptions, onDoubleClick?: Function, onContextMenu?: Function, onFocus?: Function) {
   let textElem: HTMLDivElement
 
   let title = createElement('div', {
+    tabIndex: -1,
     className: 'window-title flex items-center',
+    onfocus: onFocus,
+    oncontextmenu: onContextMenu,
     ondblclick: !options.disableMaximize ? onDoubleClick : null
   },
     textElem = createElement('div', {

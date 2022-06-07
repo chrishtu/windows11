@@ -1,4 +1,15 @@
 /* Settings */
+.setting-group:not(:first-child) {
+  margin-top: 20px;
+}
+
+.setting-label {
+  font-weight: bold;
+}
+
+.setting-items {
+  width: 100%;
+}
 
 .app-settings {
   /* background: var(--theme-background); */
@@ -53,12 +64,13 @@
   color: var(--active-color);
 }
 
-.setting-content {
+/* .setting-content {
   background: var(--theme-background-primary);
-}
+} */
 
 .setting-content-main {
   padding-left: 40px;
+  padding-right: 40px;
 }
 
 .setting-content-heading {
@@ -110,6 +122,23 @@
   margin-left: 20px;
 }
 
+.setting-nav-row {
+  padding: 15px 20px;
+  padding-right: 60px;
+}
+
+.setting-nav-row.has-icon {
+  padding-left: 60px;
+}
+
+.setting-nav-row:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-nav-row-right {
+  margin-left: auto;
+}
+
 .setting-system-info-name {
   font-size: 16px;
   font-weight: bold;
@@ -148,22 +177,30 @@
 }
 
 .setting-nav-list {
-  margin: 20px 0;
+  margin-top: 10px;
 }
 
 .setting-nav-item {
   margin: 5px 0;
-  padding: 10px;
   background-color: var(--nav-item-bg-color);
+  border: 1px solid var(--border-color);
   border-radius: var(--box-border-radius);
 }
 
-.setting-nav-item:hover {
+/* .setting-nav-item:hover {
   background-color: var(--hover-bg-color);
+} */
+
+.setting-nav-item-header {
+  padding: 10px 0;
+}
+
+.setting-nav-item-icon {
+  width: 50px;
 }
 
 .setting-nav-item-info {
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 .setting-nav-item-name {
@@ -175,10 +212,33 @@
   color: var(--label-color);
 }
 
+.setting-nav-item-control {
+  margin-left: 20px;
+}
+
 .setting-nav-item-icon-more svg {
   width: 18px;
   height: 18px;
   stroke: var(--label-color);
+}
+
+.setting-nav-item-icon-more {
+  margin-left: 20px;
+  transition: transform 0.3s ease;
+}
+
+.setting-nav-item-icon.rotate {
+  transform: rotate(-90deg);
+}
+
+.setting-nav-item-content {
+  border-top: 1px solid var(--border-color);
+  transition: height 0.3s var(--animation-timing-function);
+  display: none;
+}
+
+.setting-nav-item-content.show {
+  display: block;
 }
 
 .setting-help {
@@ -201,6 +261,142 @@
   margin: 10px 0;
   color: var(--accent-color);
 }
+
+.setting-quick-theme {
+  gap: 6px;
+}
+
+.setting-quick-theme-item {
+  padding: 4px;
+  width: 120px;
+  height: 100px;
+}
+
+.setting-quick-theme-item-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.setting-quick-theme-item-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: var(--box-border-radius);
+}
+
+.setting-quick-theme-item-color {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--box-border-radius);
+}
+
+.setting-quick-theme-item-color-accent {
+  width: 20px;
+  height: 6px;
+  border-radius: 2px;
+  margin-bottom: 6px;
+}
+
+.settings-screen-preview {
+  position: relative;
+  width: 240px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-image .3s ease .3s;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-screen-preview-inner {
+  position: relative;
+  padding-top: 56.25%;
+  overflow: hidden;
+  border: 4px solid black;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-screen-preview-taskbar {
+  position: absolute;
+  bottom: 0;
+  margin-left: -10%;
+  width: 120%;
+  height: 10px;
+  background-color: var(--window-background);
+}
+
+html.glass .settings-screen-preview-taskbar {
+  backdrop-filter: blur(var(--box-blur));
+}
+
+.settings-screen-preview-card {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  width: 70px;
+  height: 80px;
+  background-color: var(--theme-background);
+  border-radius: var(--box-border-radius);
+  padding: 10px;
+}
+
+.settings-screen-preview-card-placeholder-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--label-color);
+  margin-bottom: 10px;
+}
+
+.settings-screen-preview-card-placeholder-line.half {
+  width: 50%;
+}
+
+.settings-screen-preview-card-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 30px;
+  height: 10px;
+  background-color: var(--accent-color);
+  border-radius: 2px;
+}
+
+.settings-recent-images-header {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.settings-recent-images {
+  gap: 10px;
+}
+
+.settings-recent-image {
+  width: 100px;
+  height: 100px;
+  padding: 2px;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-recent-image-inner {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: var(--box-border-radius);
+}
+
+.settings-recent-image:first-child {
+  border: 2px solid var(--accent-color);
+}
+
+/* .settings-recent-image:not(:last-child) {
+  margin-right: 10px;
+} */
 
 /* Photos */
 

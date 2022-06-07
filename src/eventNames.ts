@@ -1,5 +1,6 @@
 export default {
   backgroundImageChange: 'background-image-change',
+  backgroundImageStyleChange: 'background-image-style-change',
   themeChange: 'theme-change',
   blurChange: 'blur-change',
   nightLightChange: 'night-light-change',
