@@ -101,6 +101,7 @@ export default function System(onNavItemClick: SettingNavCallback) {
       name: key,
       text: item.text,
       icon: item.icon,
+      iconType: item.iconType,
       desc: item.desc,
       path: 'system/' + key
     }

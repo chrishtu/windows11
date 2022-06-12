@@ -35,6 +35,7 @@
   --box-drop-shadow: 3px 3px 6px rgba(0, 0, 0, .5);
   --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
   --scrollbar-color: rgba(0, 0, 0, .5);
+  --taskbar-height: 40px;
 }
 
 :root.glass {
@@ -322,7 +323,31 @@ html.glass .desktop-shape-presentation {
   transform: scale(1);
 }
 
+.desktop-selection {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.desktop-selection-presentation {
+  visibility: hidden;
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: 3;
+  border: 1px solid #007aff;
+  background-color: rgba(0, 128, 255, .3);
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
 .desktop-app-items {
+  width: 0;
+  height: calc(100% - var(--taskbar-height));
+  z-index: 2;
   align-content: flex-start;
 }
 
@@ -331,12 +356,17 @@ html.glass .desktop-shape-presentation {
   height: 74px;
   margin: 5px;
   border: 1px solid transparent;
+  border-radius: var(--box-border-radius);
 }
 
-.desktop-app-item:hover {
-  border-radius: var(--box-border-radius);
+.desktop-app-item:hover, .desktop-app-item-selected {
   border-color: hsla(199, 50%, 90%, 0.3);
   background-color: hsla(199, 50%, 80%, 0.3);
+}
+
+.desktop-app-item.desktop-app-item-selected:hover {
+  background-color: hsla(199, 50%, 70%, .4);
+  border-color: hsla(199, 50%, 90%, .5);
 }
 
 .desktop-app-item-icon {
@@ -956,7 +986,8 @@ html.glass .window {
   height: 6px;
 }
 
-button, .button {
+button,
+.button {
   color: var(--button-color);
   background-color: var(--button-bg-color);
   border: 1px solid var(--border-color);
@@ -973,11 +1004,13 @@ button, .button {
   padding: 5px 7px;
 }
 
-button:hover, .button:hover {
+button:hover,
+.button:hover {
   background-color: var(--button-bg-color-hover);
 }
 
-button:focus, .button:focus {
+button:focus,
+.button:focus {
   border-color: #007efb;
 }
 
@@ -1435,7 +1468,7 @@ html.glass .taskbar {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 99999999;
+  z-index: 9999999999;
   pointer-events: none;
 }
 

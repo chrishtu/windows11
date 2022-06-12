@@ -23,6 +23,9 @@ interface Desktop {
 }
 
 function DesktopItems() {
+  let selectedItems: Array<Element> = []
+  let notSelectedItems: Array<Element> = []
+
   const appItems: Array<ProcessInfo> = [
     {
       icon: 'imgs/icons/Trash Empty.png',
@@ -78,11 +81,15 @@ function DesktopItems() {
     startProcess(appItem)
   }
 
+  function onmousedown(_e: MouseEvent) {
+    // const target = e.currentTarget as Element
+    // const isSelected = selectedItems.includes(target)
+
+
+  }
+
   const desktopItemsElem = createElement('div', {
-    className: 'desktop-app-items fixed top w-full flex flex-col flex-wrap',
-    style: {
-      height: `calc(100% - ${taskbarHeight}px)`
-    }
+    className: 'desktop-app-items absolute top flex flex-col flex-wrap'
   },
     appItems.map((currentAppInfo: ProcessInfo, index: number) => {
       const iconProps = Object.create(null)
@@ -120,7 +127,16 @@ function DesktopItems() {
       return createElement('div', {
         key: 'd-i' + index,
         className: 'desktop-app-item',
-        ondblclick: onDesktopItemDblClick.bind(null, currentAppInfo)
+        ondblclick: onDesktopItemDblClick.bind(null, currentAppInfo),
+        onmousedown,
+        onclick: e => {
+          const target = e.currentTarget as Element
+          if (!e.shiftKey) {
+            removeSelection()
+          }
+          target.classList.add('desktop-app-item-selected')
+          selectedItems.push(target)
+        }
       },
         [
           createElement('div', iconProps),
@@ -137,7 +153,53 @@ function DesktopItems() {
     })
   )
 
-  return desktopItemsElem
+  function selectItems(position: { x1: number, x2: number, y1: number, y2: number }, shiftKey: boolean = false) {
+    const items = Array.from(desktopItemsElem.children)
+
+    items.forEach((item: Element) => {
+      const itemRect = item.getBoundingClientRect()
+
+      if (itemRect.left + itemRect.width < position.x1
+        || itemRect.left > position.x2
+        || itemRect.top + itemRect.height < position.y1
+        || itemRect.top > position.y2
+      ) {
+        if (!shiftKey) {
+          item.classList.remove('desktop-app-item-selected')
+        }
+      } else {
+        item.classList.add('desktop-app-item-selected')
+      }
+    })
+  }
+
+  function getItems() {
+    const items = Array.from(desktopItemsElem.children)
+
+    selectedItems = items.filter((item: Element) => item.classList.contains('desktop-app-item-selected'))
+
+    notSelectedItems = items.filter((item: Element) => !item.classList.contains('desktop-app-item-selected'))
+
+    return {
+      items,
+      selectedItems,
+      notSelectedItems
+    }
+  }
+
+  function removeSelection() {
+    selectedItems.forEach((item: Element) => {
+      item.classList.remove('desktop-app-item-selected')
+    })
+    selectedItems = []
+  }
+
+  return {
+    element: desktopItemsElem,
+    selectItems,
+    getItems,
+    removeSelection
+  }
 }
 
 function onDesktopContextMenu(e: MouseEvent) {
@@ -147,14 +209,95 @@ function onDesktopContextMenu(e: MouseEvent) {
 }
 
 function Desktop(): Desktop {
+  const desktopItems = DesktopItems()
+
   let shapeElem = createElement('div', {
     className: 'desktop-shape-presentation'
   })
 
+  let selectionElem = createElement('div', {
+    className: 'desktop-selection-presentation'
+  })
+
   let desktop = createElement('div', {
     className: 'desktop fade-in',
-    oncontextmenu: onDesktopContextMenu
-  })
+  },
+    [
+      createElement('div', {
+        className: 'desktop-selection',
+        oncontextmenu: onDesktopContextMenu,
+        onmousedown
+      }),
+      selectionElem
+    ]
+  )
+
+  let isMouseDown = false
+  let firstMouseDownPos: { x: number, y: number } = null
+
+  function onmousedown(e: MouseEvent) {
+    if (!e.shiftKey) {
+      desktopItems.removeSelection()
+    }
+
+    if (e.button === 0) {
+      isMouseDown = true
+      firstMouseDownPos = { x: e.x, y: e.y }
+
+      document.onmousemove = onmousemove
+      document.onmouseup = onmouseup
+    }
+  }
+
+  function onmousemove(e: MouseEvent) {
+    if (!isMouseDown || (Math.abs(e.x - firstMouseDownPos.x) < 2 && Math.abs(e.y - firstMouseDownPos.y) < 2)) {
+      return
+    }
+
+    let top = 0,
+      left = 0,
+      width = 0,
+      height = 0
+
+    if (e.x > firstMouseDownPos.x) {
+      left = firstMouseDownPos.x
+      width = e.x - firstMouseDownPos.x
+    } else {
+      left = e.x
+      width = firstMouseDownPos.x - e.x
+    }
+
+    if (e.y > firstMouseDownPos.y) {
+      top = firstMouseDownPos.y
+      height = e.y - firstMouseDownPos.y
+    }
+    else {
+      top = e.y
+      height = firstMouseDownPos.y - e.y
+    }
+
+    setStyle(selectionElem, {
+      visibility: 'visible',
+      top: top + 'px',
+      left: left + 'px',
+      width: width + 'px',
+      height: height + 'px'
+    })
+
+    desktopItems.selectItems({ x1: left, x2: left + width, y1: top, y2: top + height }, e.shiftKey)
+  }
+
+  function onmouseup() {
+    isMouseDown = false
+
+    setStyle(selectionElem, {
+      visibility: 'hidden',
+      width: '0px',
+      height: '0px'
+    })
+
+    desktopItems.getItems()
+  }
 
   let showTimeout: NodeJS.Timeout
   let isShow = false
@@ -167,7 +310,7 @@ function Desktop(): Desktop {
   appendChild(document.body, shapeElem)
 
   setTimeout(() => {
-    appendChild(desktop, DesktopItems())
+    appendChild(desktop, desktopItems.element)
   }, 500)
 
   function setBackgroundImage(imageInfo: IWallpaerImageInfo, isTemp?: boolean) {

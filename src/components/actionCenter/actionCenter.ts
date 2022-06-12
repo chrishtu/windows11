@@ -148,7 +148,7 @@ function ActionCenter() {
     }
   })
 
-  brightnessSlider.update(brightness || 100)
+  brightnessSlider.update(brightness)
 
   const volumeSlider = Slider({
     showBagde: true,

@@ -1,27 +1,48 @@
+import Toggle from "../../../../../components/controls/Toggle";
+import DesktopScreen from "../../../../../components/DesktopScreen";
 import createElement from "../../../../../createElement";
+import { listenEvent } from "../../../../../event";
+import eventNames from "../../../../../eventNames";
+import { getState } from "../../../../../store";
 import { SystemNavItemInfo } from "../../../common";
-import { SettingGroup } from "../../../settingGroup";
 import { SettingHelp } from "../../settingHelp";
+import { SettingNavItem, SettingNavRow } from "../settingNav";
 
 export default function Display() {
 
   function onNavItemClick(_path: string) {
-    // console.log(path)
+    console.log(_path)
   }
 
   const basePath = () => 'settings/system/'
 
+  const { nightlight } = getState('nightlight')
+
+  const nightlightToggle = Toggle({
+    checked: nightlight,
+    onChange: () => {
+      DesktopScreen.toogleNightLight()
+    }
+  })
+
+  listenEvent(eventNames.nightLightChange, 'settings-display-nightlight', (checked: boolean) => {
+    nightlightToggle.checked = checked
+  })
+
   const items: Array<SystemNavItemInfo> = [
     {
-      isNav: true,
       path: '',
       text: 'Night light',
       desc: 'Use warmer colors to help block blue light',
       icon: '',
-      name: 'nightlight'
+      name: 'nightlight',
+      control: nightlightToggle.element,
+      content: SettingNavRow({
+        itemsCenter: true,
+        contentLeft: 'Atjust the color of the screen to help block blue light'
+      }),
     },
     {
-      isNav: true,
       path: '',
       text: 'HDR',
       desc: 'More about HDR',
@@ -29,6 +50,9 @@ export default function Display() {
       name: 'nightlight'
     }
   ]
+
+  const settingNightLight = SettingNavItem(items[0], onNavItemClick)
+  const settingHDR = SettingNavItem(items[1], onNavItemClick)
 
   let element = createElement('div', {
     className: 'setting-system-display flex flex-wrap'
@@ -41,7 +65,8 @@ export default function Display() {
           className: 'setting-system-main-content'
         },
           [
-            SettingGroup('Brightness & color', items, onNavItemClick)
+            settingNightLight.element,
+            settingHDR.element,
           ]
         )
       ),

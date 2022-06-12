@@ -8,11 +8,14 @@ import { ProcessInfo } from "./proceduce";
 import { FileMapping } from "./apps/fileMapping";
 import eventNames from "./eventNames";
 import DesktopScreen from "./components/DesktopScreen";
-import { enableDarkTheme, setTransparencyEffect } from "./utils/common";
+import { enableDarkTheme, isNotNullOrUndifined, setTransparencyEffect } from "./utils/common";
+import { taskbarHeight } from "./components/constant";
 
 if (isWebkit) {
   document.documentElement.classList.add('isWebkit')
 }
+
+document.documentElement.style.setProperty('--taskbar-height', taskbarHeight.toString() + 'px')
 
 document.addEventListener('contextmenu', e => {
   e.preventDefault()
@@ -32,8 +35,8 @@ if (state.backgroundImage) {
   desktop.setBackgroundImage(state.backgroundImage)
 }
 
-if (state.brightness) {
-  DesktopScreen.setBrightness(state.brightness || 100)
+if (isNotNullOrUndifined(state.brightness)) {
+  DesktopScreen.setBrightness(state.brightness)
 }
 
 if (state.nightlight) {

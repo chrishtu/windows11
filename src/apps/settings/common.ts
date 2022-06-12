@@ -13,6 +13,7 @@ export interface NavItemInfo {
 
 export interface SystemNavItemInfo {
   icon: string
+  iconType?: string
   name: string
   text: string
   desc: string
@@ -32,6 +33,7 @@ export type SettingContentFunction = (onNavItemClick: SettingNavCallback) => ISe
 
 export interface SettingsChildrenInfo {
   icon: string
+  iconType?: string
   text: string
   desc: string
 }
@@ -42,6 +44,7 @@ export interface SettingsChildrenIndex {
 
 export interface SettingParentInfo {
   icon: string
+  iconType?: string
   text: string,
   items?: SettingsChildrenIndex
 }
@@ -61,7 +64,8 @@ export interface ISettingContentMapIndex {
 
 export const settingsInfo: SettingsInfoIndex = {
   system: {
-    icon: '',
+    icon: 'imgs/icons/Desktop.png',
+    iconType: 'image',
     text: 'System',
     items: {
       display: {
@@ -97,15 +101,16 @@ export const settingsInfo: SettingsInfoIndex = {
     }
   },
   bluetoothAndDevice: {
-    icon: '',
+    icon: 'imgs/icons/misc/Bluetooth.png',
     text: 'Bluetooth & Devices'
   },
   networkAndInternet: {
-    icon: '',
+    icon: 'imgs/icons/misc/wifi.png',
     text: 'Network & Intenet'
   },
   personalization: {
-    icon: '',
+    icon: 'imgs/icons/Personalization.png',
+    iconType: 'image',
     text: 'Personalization',
     items: {
       background: {
@@ -146,31 +151,32 @@ export const settingsInfo: SettingsInfoIndex = {
     }
   },
   apps: {
-    icon: '',
+    icon: 'imgs/icons/misc/15.png',
     text: 'Apps'
   },
   accounts: {
-    icon: '',
+    icon: 'imgs/icons/Users.png',
+    iconType: 'image',
     text: 'Accounts'
   },
   timeAndLanguage: {
-    icon: '',
+    icon: 'imgs/icons/misc/Time And Language.png',
     text: 'Time & Language'
   },
   gaming: {
-    icon: '',
+    icon: 'imgs/icons/misc/Gaming.png',
     text: 'Gaming'
   },
   accessibility: {
-    icon: '',
+    icon: 'imgs/icons/Help.png',
     text: 'Accessibility'
   },
   privacyAndSecurity: {
-    icon: '',
+    icon: 'imgs/icons/Security.png',
     text: 'Privacy & Security'
   },
   windowUpdate: {
-    icon: '',
+    icon: 'imgs/icons/Emblems/1401.png',
     text: 'Window Update'
   }
 }

@@ -12,6 +12,7 @@ import eventNames from "../../eventNames";
 import startMenu from "../../apps/startMenu";
 import ContextMenu from "../contextMenu/menu";
 import { closeContextMenu } from "./utils";
+import { createWindow } from "../../proceduce";
 
 function onmouseover() {
   //To Window Manager
@@ -51,7 +52,11 @@ function TaskbarSystemApp() {
     e.preventDefault()
 
     ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, [
-      { text: 'Apps and Features' },
+      {
+        text: 'Apps and Features', onClick: () => {
+          createWindow(AppInfo.settings.name, 'apps')
+        }
+      },
       { text: 'Mobility Center' },
       { text: 'Power Options' },
       { text: 'Event Viewer' },
@@ -60,11 +65,23 @@ function TaskbarSystemApp() {
       { text: 'Network Connection' },
       { text: 'Disk Management' },
       { text: 'Computer Management' },
-      { text: 'Command Prompt(Admin)' },
+      {
+        text: 'Command Prompt(Admin)', onClick: () => {
+          createWindow(AppInfo.terminal.name)
+        }
+      },
       { divider: true },
       { text: 'Task Manager' },
-      { text: 'Settings' },
-      { text: 'File Explorer' },
+      {
+        text: 'Settings', onClick: () => {
+          createWindow(AppInfo.settings.name)
+        }
+      },
+      {
+        text: 'File Explorer', onClick: () => {
+          createWindow(AppInfo.explorer.name)
+        }
+      },
       { text: 'Search' },
       { text: 'Run' },
       { divider: true },
@@ -76,7 +93,11 @@ function TaskbarSystemApp() {
           { text: 'Restart' },
         ]
       },
-      { text: 'Desktop' },
+      {
+        text: 'Desktop', onClick: () => {
+          showDesktop()
+        }
+      },
     ])
   }
 

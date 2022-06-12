@@ -89,6 +89,13 @@ export default function Select(props: SelectProps): ISelect {
   function close() {
     optionsElement.classList.remove('show')
     isShow = false
+    document.removeEventListener('click', _onDocumentClick)
+  }
+
+  function _onDocumentClick(e: MouseEvent) {
+    if (e.target !== element && !element.contains(e.target as Node)) {
+      close()
+    }
   }
 
   function checkSelected() {
@@ -102,7 +109,7 @@ export default function Select(props: SelectProps): ISelect {
 
   function checkPosition() {
     if (!selectedOptionElement) return
-    selectedOptionElement.scrollIntoView()
+    // selectedOptionElement.scrollIntoView()
     optionsElement.style.top = (-selectedOptionElement.offsetTop) + 'px'
   }
 
@@ -112,11 +119,11 @@ export default function Select(props: SelectProps): ISelect {
     if (isShow) {
       checkSelected()
       checkPosition()
-
+      document.addEventListener('click', _onDocumentClick)
     }
 
-    optionsElement.classList[isShow ? 'add' : 'remove']('show')
-    optionsElement.scrollIntoView()
+    optionsElement.classList.toggle('show')
+    // optionsElement.scrollIntoView()
   }
 
   element = createElement('div', {

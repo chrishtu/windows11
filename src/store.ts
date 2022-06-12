@@ -1,11 +1,8 @@
 import wallpapers, { IWallpaerImageInfo } from "./data/wallpapers"
 import { fillObject } from "./utils"
 
-type BackgroundStyle = 'fill' | 'fit' | 'stretch' | 'center' | 'tile' | 'span'
-
 interface AppState {
-  [key: symbol | string]: any
-  backgroundStyle?: BackgroundStyle
+  [key: string]: any
 }
 
 export interface ITheme {
@@ -74,7 +71,9 @@ try {
   const data = localStorage.getItem('preferences')
   if (data)
     appState = fillObject(JSON.parse(data), defaultState)
-    // console.log(appState);
+  else {
+    appState = defaultState
+  }
 } catch (e) {
 
 }
