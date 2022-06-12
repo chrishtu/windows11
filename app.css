@@ -64,6 +64,15 @@
   color: var(--active-color);
 }
 
+.setting-sidebar-nav-item-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 50% 50%;
+}
+
 /* .setting-content {
   background: var(--theme-background-primary);
 } */
@@ -214,6 +223,7 @@
 
 .setting-nav-item-control {
   margin-left: 20px;
+  margin-right: 10px;
 }
 
 .setting-nav-item-icon-more svg {
@@ -223,7 +233,6 @@
 }
 
 .setting-nav-item-icon-more {
-  margin-left: 20px;
   transition: transform 0.3s ease;
 }
 
