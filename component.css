@@ -114,6 +114,11 @@ html.glass .sub-menu::after {
   overflow: hidden;
 }
 
+.context-menu.has-shortcut .menu-item-text,
+.sub-menu.has-shortcut .menu-item-text {
+  min-width: 120px;
+}
+
 .menu-item.emphasis>.menu-item-text {
   font-weight: bold;
 }
@@ -187,92 +192,4 @@ html.glass .sub-menu::after {
   bottom: 0;
   right: 0;
   margin: auto;
-}
-
-
-/* Select */
-.select {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 32px;
-  background-color: var(--window-background);
-  color: var(--primary-text-color);
-  font-size: 12px;
-  border: 1px solid var(--border-color);
-  border-bottom-width: 2px;
-  border-radius: var(--box-border-radius);
-}
-
-.select-placeholder {
-  height: 100%;
-  padding-left: 10px;
-  min-width: 120px;
-}
-
-.select-placeholder-icon {
-  width: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.select-placeholder-icon svg {
-  width: 16px;
-  height: 16px;
-  transform: rotate(180deg);
-}
-
-.select-options {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 0;
-  max-height: 260px;
-  overflow-x: hidden;
-  overflow-y: overlay;
-  background-color: var(--window-background);
-  border: 1px solid var(--border-color);
-  border-radius: var(--box-border-radius);
-  box-shadow: var(--box-drop-shadow);
-  user-select: none;
-  opacity: 0;
-  transition: opacity .2s ease;
-}
-
-html.glass .select-options {
-  backdrop-filter: blur(var(--box-blur));
-}
-
-.select-options.show {
-  height: auto;
-  opacity: 1;
-}
-
-.select-option {
-  position: relative;
-  padding: 10px;
-  transition: background-color .2s ease-in-out;
-}
-
-.select-option-decorator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  height: 60%;
-  margin: auto;
-  contain: layout;
-  pointer-events: none;
-  border-radius: var(--box-border-radius);
-}
-
-.select-option:hover {
-  background-color: var(--hover-bg-color);
-}
-
-.select-option.selected .select-option-decorator {
-  background-color: var(--accent-color);
 }
