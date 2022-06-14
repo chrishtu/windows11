@@ -4,6 +4,7 @@ import { CommingSoonApp } from "./inProgressApp";
 import NotePad from "./notepad";
 import Photos from "./photos";
 import Settings from "./settings/settings";
+import Calculator from "./calculator";
 
 export type AppParameter = (appInfo: IAppInfo, _args?: any) => void
 
@@ -24,7 +25,7 @@ export const Apps: AppsIndex = {
   photos: Photos,
   yourphone: CommingSoonApp,
   whiteboard: CommingSoonApp,
-  calculator: CommingSoonApp,
+  calculator: Calculator,
   spotify: CommingSoonApp,
   twitter: CommingSoonApp,
   vscode: CommingSoonApp,

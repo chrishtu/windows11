@@ -1,5 +1,5 @@
 import createElement from "../../createElement";
-import { WindowTitleBar } from "../../interfaces/window";
+import { IWindowTitleBarOptions } from "../../interfaces/window";
 import WindowIcon from "./icon";
 import TitleBarButtons, { TitleBarButtonsEvents } from "./titlebarButtons";
 import Title from "./titlte";
@@ -15,6 +15,7 @@ interface TitleBarEvents extends TitleBarButtonsEvents {
 export interface ITitleBar {
   element: HTMLDivElement
   titleElem: HTMLDivElement
+  titlebarDragElement: HTMLDivElement
   setIcon(): void
   setTitle(text: string): void
   setVisible(visible: boolean): void
@@ -23,11 +24,12 @@ export interface ITitleBar {
   setPreventHide(autoHide: boolean): void
 }
 
-export default function TitleBar(options: WindowTitleBar, events: TitleBarEvents): ITitleBar {
+export default function TitleBar(options: IWindowTitleBarOptions, events: TitleBarEvents): ITitleBar {
   let windowIcon = WindowIcon(options.icon)
   let windowTitle = Title({
     title: options.title,
-    disableMaximize: options.disableMaximize
+    disableMaximize: options.disableMaximize,
+    content: options.content
   },
     events.onDoubleClick,
     events.onContextMenu,
@@ -93,6 +95,7 @@ export default function TitleBar(options: WindowTitleBar, events: TitleBarEvents
   return {
     element: titlebar,
     titleElem: windowTitle.element,
+    titlebarDragElement: windowTitle.titlebarDragElement,
     setIcon: windowIcon.setWindowIcon,
     setTitle: windowTitle.setTitle,
     setMaximize: windowButtons.setMaximize,

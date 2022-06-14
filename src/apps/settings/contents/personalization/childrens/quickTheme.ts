@@ -1,8 +1,8 @@
 import createElement from "../../../../../createElement"
-import { getStates, ITheme, setState } from "../../../../../store"
+import { ITheme, appStore } from "../../../../../store"
 
 export default function QuickTheme() {
-  const { themes, currentThemeIndex } = getStates()
+  const { themes, currentThemeIndex } = appStore.getStates()
 
   let element = createElement('div', {
     className: 'setting-quick-theme flex'
@@ -13,7 +13,7 @@ export default function QuickTheme() {
         onclick: () => {
           if (index === currentThemeIndex) return
 
-          setState({
+          appStore.setState({
             currentThemeIndex: index
           })
         },

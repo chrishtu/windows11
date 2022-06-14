@@ -2,7 +2,7 @@ import createElement from "../../createElement";
 import { listenEvent, triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { createWindow } from "../../proceduce";
-import { getState, setState } from "../../store";
+import { appStore } from "../../store";
 import { toggleTheme, toggleTransparency } from "../../utils/common";
 import DesktopScreen from "../DesktopScreen";
 import { airplaneModeIcon, batteryIcon, bluetoothIcon, castIcon, darkThemeIcon, locationIcon, moonIcon, nightLightIcon, settingIcon, sunIcon, transparencyIcon, volumeIcon2, wifiIcon } from "../icons/icons";
@@ -61,7 +61,7 @@ function ActionCenterButton(options: ActionCenterButtonOptions) {
 }
 
 function ActionCenter() {
-  const { darktheme, nightlight, brightness, volume, transparency } = getState(['darktheme', 'nightlight', 'brightness', 'volume', 'transparency'])
+  const { darktheme, nightlight, brightness, volume, transparency } = appStore.getState(['darktheme', 'nightlight', 'brightness', 'volume', 'transparency'])
 
   const wifiButton = ActionCenterButton({
     icon: wifiIcon,
@@ -142,7 +142,7 @@ function ActionCenter() {
     }),
     onRelease: (value: number) => {
       brightnessCaptured = false
-      setState({
+      appStore.setState({
         brightness: Math.round(value)
       })
     }
@@ -153,7 +153,7 @@ function ActionCenter() {
   const volumeSlider = Slider({
     showBagde: true,
     onRelease: (percent: number) => {
-      setState({ volume: Math.round(percent) })
+      appStore.setState({ volume: Math.round(percent) })
     }
   })
 

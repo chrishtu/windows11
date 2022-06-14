@@ -1,6 +1,6 @@
 import { triggerEvent } from "../event"
 import eventNames from "../eventNames"
-import { getState, setState } from "../store"
+import { appStore } from "../store"
 
 export function getImageThumbnail(src: string, cb: (src: string) => void) {
   const canvas = document.createElement('canvas')
@@ -31,13 +31,13 @@ export function getImageThumbnail(src: string, cb: (src: string) => void) {
 export function enableDarkTheme(darktheme: boolean) {
   document.documentElement.classList[darktheme ? 'add' : 'remove']('dark')
 
-  setState({ darktheme })
+  appStore.setState({ darktheme })
 
   triggerEvent(eventNames.themeChange, darktheme)
 }
 
 export function toggleTheme(cb?: (isDark: boolean) => void) {
-  let { darktheme } = getState('darktheme')
+  let { darktheme } = appStore.getState('darktheme')
 
   enableDarkTheme(!darktheme)
 
@@ -49,13 +49,13 @@ export function toggleTheme(cb?: (isDark: boolean) => void) {
 export function setTransparencyEffect(transparency: boolean) {
   document.documentElement.classList[transparency ? 'add' : 'remove']('glass')
 
-  setState({ transparency })
+  appStore.setState({ transparency })
 
   triggerEvent(eventNames.transparentChange, transparency)
 }
 
 export function toggleTransparency() {
-  const { transparency } = getState('transparency')
+  const { transparency } = appStore.getState('transparency')
 
   setTransparencyEffect(!transparency)
 }

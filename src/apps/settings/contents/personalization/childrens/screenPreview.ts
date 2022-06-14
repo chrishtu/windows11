@@ -1,5 +1,5 @@
 import createElement from "../../../../../createElement"
-import { getState } from "../../../../../store"
+import { appStore } from "../../../../../store"
 import { setBackgroundImageStyle } from "../../../../../utils/common"
 
 interface IScreenPreviewProps {
@@ -7,7 +7,7 @@ interface IScreenPreviewProps {
 }
 
 export default function ScreenPreview(props: IScreenPreviewProps) {
-  const { backgroundImageStyle } = getState('backgroundImageStyle')
+  const { backgroundImageStyle } = appStore.getState('backgroundImageStyle')
   
   let element = createElement('div', {
     className: 'settings-screen-preview',

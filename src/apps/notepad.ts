@@ -6,24 +6,26 @@ import { IAppInfo } from "./appInfo";
 
 const NotePad = (appInfo: IAppInfo, args?: any) => {
   const notepad = (win: IWindow) => {
-    let notePadElem = createElement('div', {
+    let notePadElem = createElement('textarea', {
       tabIndex: 0,
-      contentEditable: true,
       className: 'w-full h-full scrollable scroll-y',
       style: {
+        border: 0,
         borderTop: '1px solid var(--border-color)',
         outline: 0,
         padding: '5px',
         color: 'var(--primary-text-color)',
+        backgroundColor: 'transparent',
         font: '400 14px Consolas',
-        cursor: 'default'
+        cursor: 'default',
+        resize: 'none'
       }
     })
 
     if (args) {
       readFile(args, text => {
         win.setTitle(getFileName(args) + ' - NotePad')
-        notePadElem.innerText = text
+        notePadElem.value = text
       })
     }
 

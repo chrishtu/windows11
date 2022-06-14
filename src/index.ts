@@ -1,7 +1,7 @@
 import { listenEvent } from "./event";
 import { AppInfo } from "./apps/appInfo";
 import { Apps } from "./apps/app";
-import { getState } from "./store";
+import { appStore } from "./store";
 import desktop from "./components/desktop/desktop";
 import { getExt, isWebkit } from "./utils";
 import { ProcessInfo } from "./proceduce";
@@ -21,7 +21,7 @@ document.addEventListener('contextmenu', e => {
   e.preventDefault()
 })
 
-const state = getState(['darktheme', 'transparency', 'backgroundImage', 'brightness', 'nightlight'])
+const state = appStore.getState(['darktheme', 'transparency', 'backgroundImage', 'brightness', 'nightlight'])
 
 if (state.darktheme) {
   enableDarkTheme(state.darktheme)

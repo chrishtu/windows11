@@ -1,5 +1,5 @@
-import createElement, { appendChild } from "../../createElement";
-import { Cordinate, IWindow, Position, Size, WindowBounds, WindowOptions } from "../../interfaces/window";
+import createElement, { appendChild, removeChildren } from "../../createElement";
+import { Cordinate, IWindow, Position, Size, WindowBounds, IWindowOptions, WindowEventListeners } from "../../interfaces/window";
 import { generateID } from "../../utils";
 import TitleBar from "./titlebar";
 import { dragElement, resizeElem } from "./utils";
@@ -39,7 +39,7 @@ interface ITouchIndex {
   [key: string]: boolean
 }
 
-export default function Window(options: WindowOptions) {
+export default function Window(options: IWindowOptions) {
   const listeners: WindowListeners = {}
 
   if (options.singleInstance) {
@@ -82,7 +82,7 @@ export default function Window(options: WindowOptions) {
     listeners[name].push(listener)
   }
 
-  function executeListeners(name: string, args?: any) {
+  function executeListeners(name: WindowEventListeners, args?: any) {
     const currentListeners = listeners[name]
 
     if (!currentListeners) return
@@ -100,7 +100,8 @@ export default function Window(options: WindowOptions) {
     title: options.title,
     disableMaximize: options.disableMaximize,
     maximized: options.maximized,
-    autoHide: options.autoHideTitleBar
+    autoHide: options.autoHideTitleBar,
+    content: options.titlebarContent
   }, {
     onDoubleClick,
     onContextMenu,
@@ -246,7 +247,7 @@ export default function Window(options: WindowOptions) {
       onClick: () => {
         toggleMaximize()
       },
-      disabled: maximized
+      disabled: options.disableMaximize || maximized
     },
     { divider: true },
     {
@@ -341,6 +342,10 @@ export default function Window(options: WindowOptions) {
     ]
   )
 
+  if (typeof options.titlebarHeight === 'number' && options.titlebarHeight > 0) {
+    _window.style.setProperty('--titlebar-height', options.titlebarHeight + 'px')
+  }
+
   appendChild(document.body, _window)
 
   let mouseTimeout: NodeJS.Timeout
@@ -381,6 +386,7 @@ export default function Window(options: WindowOptions) {
   }
 
   function setContent(content: any) {
+    removeChildren(windowContent)
     appendChild(windowContent, content)
   }
 
@@ -472,7 +478,7 @@ export default function Window(options: WindowOptions) {
     toggleMaximize()
   }
 
-  dragElement(_window, titlebar.titleElem, {
+  dragElement(_window, titlebar.titlebarDragElement, {
     onDragStart: () => executeListeners('dragstart'),
     onDrag,
     onDragEnd
@@ -677,7 +683,7 @@ export default function Window(options: WindowOptions) {
       }
     }
 
-    executeListeners('dragend')
+    executeListeners('dragend', lastBounds)
   }
 
   function maximize() {
@@ -730,13 +736,17 @@ export default function Window(options: WindowOptions) {
   function onContextMenu(e: MouseEvent) {
     e.preventDefault()
 
-    ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, getTitlebarContextTemplate(), false, () => {
-      setTimeout(() => {
+    focus()
+
+    ContextMenu(
+      { top: e.y, left: e.x },
+      e.currentTarget as HTMLElement, getTitlebarContextTemplate(), false, () => {
         if (_window && !minimized) {
           focus()
         }
-      }, 10)
-    })
+      },
+      false
+    )
   }
 
   function setBounds(bounds: WindowBounds) {
@@ -793,20 +803,21 @@ export default function Window(options: WindowOptions) {
   }
 
   function focus() {
-    _window.focus()
-
-    _window.classList.add('focus')
-    removeTopView()
-
     if (!focused) {
+      _window.focus()
+
+      _window.classList.add('focus')
+      removeTopView()
       WindowManager.focus(windowInfo.name, id, windowInfo)
+      Taskbar.setActiveWindow(windowInfo.name, id)
+
+      focused = true
     }
 
-    focused = true
-
-    Taskbar.setActiveWindow(windowInfo.name, id)
-
-    executeListeners('focus')
+    //For other purpose
+    setTimeout(() => {
+      executeListeners('focus')
+    }, 0)
   }
 
   function blur() {
@@ -1025,7 +1036,9 @@ export default function Window(options: WindowOptions) {
   WindowManager.addWindow(options.name, id, windowInfo)
 
   show()
-  focus()
+  setTimeout(() => {
+    focus()
+  }, 0)
 
   return windowInfo
 }

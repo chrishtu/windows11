@@ -3,7 +3,7 @@ import DesktopScreen from "../../../../../components/DesktopScreen";
 import createElement from "../../../../../createElement";
 import { listenEvent } from "../../../../../event";
 import eventNames from "../../../../../eventNames";
-import { getState } from "../../../../../store";
+import { appStore } from "../../../../../store";
 import { SystemNavItemInfo } from "../../../common";
 import { SettingHelp } from "../../settingHelp";
 import { SettingNavItem, SettingNavRow } from "../settingNav";
@@ -16,7 +16,7 @@ export default function Display() {
 
   const basePath = () => 'settings/system/'
 
-  const { nightlight } = getState('nightlight')
+  const { nightlight } = appStore.getState('nightlight')
 
   const nightlightToggle = Toggle({
     checked: nightlight,

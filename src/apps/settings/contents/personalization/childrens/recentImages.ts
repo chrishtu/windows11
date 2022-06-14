@@ -1,13 +1,13 @@
 import createElement from "../../../../../createElement"
 import wallpapers, { IWallpaerImageInfo } from "../../../../../data/wallpapers"
-import { getState, setState } from "../../../../../store"
+import { appStore } from "../../../../../store"
 
 export default function RecentImages(onChange?: (item: IWallpaerImageInfo) => void) {
   let element: HTMLElement,
     recentImageListElem: HTMLElement,
     imageItemElems = []
 
-  let { recentImages } = getState('recentImages')
+  let { recentImages } = appStore.getState('recentImages')
 
   if (!recentImages) {
     recentImages = [
@@ -23,7 +23,7 @@ export default function RecentImages(onChange?: (item: IWallpaerImageInfo) => vo
     if (currentImage) {
       recentImages.splice(recentImages.indexOf(currentImage), 1)
       recentImages.unshift(item)
-      setState({ recentImages })
+      appStore.setState({ recentImages })
     }
 
     onChange && onChange(item)

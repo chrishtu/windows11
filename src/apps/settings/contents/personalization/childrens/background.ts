@@ -4,7 +4,7 @@ import desktop from "../../../../../components/desktop/desktop"
 import createElement from "../../../../../createElement"
 import { IWallpaerImageInfo } from "../../../../../data/wallpapers"
 // import wallpapers from "../../../../../data/wallpapers"
-import { getState, setState } from "../../../../../store"
+import { appStore } from "../../../../../store"
 import { getFileName } from "../../../../../utils"
 import { getImageThumbnail } from "../../../../../utils/common"
 import { getThumbnailFromImage } from "../../../common"
@@ -14,7 +14,7 @@ import RecentImages from "./recentImages"
 import ScreenPreview from "./screenPreview"
 
 export default function Background() {
-  const { backgroundImage } = getState('backgroundImage')
+  const { backgroundImage } = appStore.getState('backgroundImage')
   const thumbnailImage = getThumbnailFromImage(backgroundImage.path)
   const screenPreview = ScreenPreview({ backgroundImage: thumbnailImage })
 
@@ -54,7 +54,7 @@ export default function Background() {
   }
 
   function getImageContent() {
-    const { backgroundImageStyle } = getState('backgroundImageStyle')
+    const { backgroundImageStyle } = appStore.getState('backgroundImageStyle')
 
     return [
       SettingNavRow({
@@ -84,7 +84,7 @@ export default function Background() {
           onChange: (item) => {
             screenPreview.setBackgroundStyle(item.value)
             desktop.setBackgroundStyle(item.value)
-            setState({ backgroundImageStyle: item.value })
+            appStore.setState({ backgroundImageStyle: item.value })
           }
         }).element,
         itemsCenter: true

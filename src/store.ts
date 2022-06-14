@@ -1,7 +1,7 @@
 import wallpapers, { IWallpaerImageInfo } from "./data/wallpapers"
 import { fillObject } from "./utils"
 
-interface AppState {
+interface IState {
   [key: string]: any
 }
 
@@ -50,10 +50,11 @@ const DefaultDarkTheme = {
   transparency: true,
 }
 
-const defaultState: AppState = {
+const defaultAppState: IState = {
   darktheme: false,
   transparency: true,
   backgroundImage: wallpapers[15],
+  showDesktopIcons: true,
   backgroundImageStyle: "fill",
   volume: 100,
   brightness: 100,
@@ -65,47 +66,57 @@ const defaultState: AppState = {
   currentThemeIndex: 0
 }
 
-let appState: AppState = {}
+export const appStore = createStore('preferences', defaultAppState)
 
-try {
-  const data = localStorage.getItem('preferences')
-  if (data)
-    appState = fillObject(JSON.parse(data), defaultState)
-  else {
-    appState = defaultState
-  }
-} catch (e) {
+export function createStore(name: string, defaultState: IState = {}) {
+  let state: IState = {}
 
-}
+  try {
+    const data = localStorage.getItem(name)
+    if (data)
+      state = fillObject(JSON.parse(data), defaultState)
+    else {
+      state = defaultState
+    }
+  } catch (e) {
 
-export function getState(keys: string | Array<string>): AppState {
-  if (typeof keys === 'string') {
-    return { [keys]: appState[keys] }
   }
 
-  if (keys instanceof Array) {
-    const data: AppState = {}
-
-    for (let index = 0; index < keys.length; index++) {
-      const key = keys[index]
-      data[key] = appState[key]
+  function getState(keys: string | Array<string>): IState {
+    if (typeof keys === 'string') {
+      return { [keys]: state[keys] }
     }
 
-    return data
+    if (keys instanceof Array) {
+      const data: IState = {}
+
+      for (let index = 0; index < keys.length; index++) {
+        const key = keys[index]
+        data[key] = state[key]
+      }
+
+      return data
+    }
+
+    return state
   }
 
-  return appState
-}
-
-export function getStates() {
-  return appState
-}
-
-export function setState(state: AppState): void {
-  appState = {
-    ...appState,
-    ...state
+  function getStates() {
+    return state
   }
 
-  localStorage.setItem('preferences', JSON.stringify(appState))
+  function setState(newState: IState): void {
+    state = {
+      ...state,
+      ...newState
+    }
+
+    localStorage.setItem(name, JSON.stringify(state))
+  }
+
+  return {
+    getState,
+    getStates,
+    setState
+  }
 }

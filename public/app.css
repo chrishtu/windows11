@@ -55,13 +55,10 @@
 
 .setting-sidebar-nav-item:hover {
   background: var(--hover-bg-color);
-  /* backdrop-filter: blur(var(--box-blur)); */
-  color: var(--hover-color);
 }
 
 .setting-sidebar-nav-item.active {
   background: var(--active-bg-color);
-  color: var(--active-color);
 }
 
 .setting-sidebar-nav-item-icon {
@@ -556,4 +553,49 @@ html.glass .settings-screen-preview-taskbar {
 
 .action-center-config {
   margin-left: auto;
+}
+
+/* Calculator */
+.calculator-display {
+  flex-shrink: 0;
+  height: 80px;
+  padding: 0 20px;
+}
+
+.calculator-display-input {
+  height: 30px;
+}
+
+.calculator-display-result {
+  font-size: 48px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: right;
+}
+
+.calculator-buttons,
+.calculator-buttons-row {
+  gap: 4px;
+}
+
+.calculator-buttons {
+  padding: 20px;
+}
+
+.calculator-button {
+  border-radius: var(--box-border-radius);
+  background: var(--button-bg-color);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.calculator-button.emphasis {
+  font-size: 22px;
+  font-weight: bold;
+  background: var(--button-bg-color-secondary);
+}
+
+.calculator-button:hover,
+.calculator-button.emphasis:hover {
+  background: var(--button-bg-color-hover);
 }

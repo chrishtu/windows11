@@ -2,14 +2,15 @@ import createElement from "../../createElement"
 import { chevronUpIcon } from "../icons/icons"
 
 interface ISelectOptions {
-  id: string
+  id?: string
   text: string
   value: string
 }
 
-interface SelectProps {
+interface ISelectProps {
   options: Array<ISelectOptions>
   value?: string
+  noBackground?: boolean
   onChange?(item: ISelectOptions): void
 }
 
@@ -23,7 +24,7 @@ export interface ISelect {
   setValue(value: string): void
 }
 
-export default function Select(props: SelectProps): ISelect {
+export default function Select(props: ISelectProps): ISelect {
   let
     placeholderTextElement: HTMLElement,
     optionsElement: HTMLElement,
@@ -32,23 +33,12 @@ export default function Select(props: SelectProps): ISelect {
 
   let selectedOption = props.options.find(item => item.value === props.value)
 
-  let selectedOptionElement: HTMLElement
-
   let optionItems: Array<SelectOptionProps> = []
 
   function onChange(item: ISelectOptions) {
     selectedOption = item
     placeholderTextElement.textContent = item.text
     props.onChange && props.onChange(item)
-
-    const optionLen = optionItems.length
-    for (let index = 0; index < optionLen; index++) {
-      const option = optionItems[index]
-      if (option.id === item.id) {
-        selectedOptionElement = option.element
-        break
-      }
-    }
 
     checkSelected()
     close()
@@ -74,10 +64,6 @@ export default function Select(props: SelectProps): ISelect {
     )
 
     optionItems.push({ id: option.value, element: optionElement })
-
-    if (selected) {
-      selectedOptionElement = optionElement
-    }
 
     return optionElement
   })
@@ -107,18 +93,11 @@ export default function Select(props: SelectProps): ISelect {
     })
   }
 
-  function checkPosition() {
-    if (!selectedOptionElement) return
-    // selectedOptionElement.scrollIntoView()
-    optionsElement.style.top = (-selectedOptionElement.offsetTop) + 'px'
-  }
-
   function toggleShow() {
     isShow = !isShow
 
     if (isShow) {
       checkSelected()
-      checkPosition()
       document.addEventListener('click', _onDocumentClick)
     }
 
@@ -127,7 +106,7 @@ export default function Select(props: SelectProps): ISelect {
   }
 
   element = createElement('div', {
-    className: 'select'
+    className: 'select' + (props.noBackground ? ' no-background' : ''),
   },
     [
       createElement('div', {

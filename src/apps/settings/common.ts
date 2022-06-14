@@ -101,11 +101,11 @@ export const settingsInfo: SettingsInfoIndex = {
     }
   },
   bluetoothAndDevice: {
-    icon: 'imgs/icons/misc/Bluetooth.png',
+    icon: 'imgs/icons/Misc/Bluetooth.png',
     text: 'Bluetooth & Devices'
   },
   networkAndInternet: {
-    icon: 'imgs/icons/misc/wifi.png',
+    icon: 'imgs/icons/Misc/wifi.png',
     text: 'Network & Intenet'
   },
   personalization: {
@@ -151,7 +151,7 @@ export const settingsInfo: SettingsInfoIndex = {
     }
   },
   apps: {
-    icon: 'imgs/icons/misc/15.png',
+    icon: 'imgs/icons/Misc/15.png',
     text: 'Apps'
   },
   accounts: {
@@ -160,11 +160,11 @@ export const settingsInfo: SettingsInfoIndex = {
     text: 'Accounts'
   },
   timeAndLanguage: {
-    icon: 'imgs/icons/misc/Time And Language.png',
+    icon: 'imgs/icons/Misc/Time And Language.png',
     text: 'Time & Language'
   },
   gaming: {
-    icon: 'imgs/icons/misc/Gaming.png',
+    icon: 'imgs/icons/Misc/Gaming.png',
     text: 'Gaming'
   },
   accessibility: {

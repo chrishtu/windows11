@@ -1,3 +1,4 @@
+import { isNotNullOrUndifined } from "../../utils/common"
 import { KEYS } from "../../utils/keys"
 import { chevronDownIcon, chevronUpIcon } from "./icons"
 import { IMenuItem, ISubMenu, ITemplate } from "./interfaces"
@@ -13,6 +14,7 @@ export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, templa
   let instance: ISubMenu = {
     close
   }
+  let hasShortcut = false
 
   let element = document.createElement('div')
   element.className = 'sub-menu'
@@ -67,6 +69,10 @@ export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, templa
   for (let index = 0; index < templateLen; index++) {
     const currentItem = template[index]
 
+    if(!hasShortcut && isNotNullOrUndifined(currentItem.shortcut)) {
+      hasShortcut = true
+    }
+
     if (currentItem.divider) {
       let menuItemDivider = document.createElement('div')
       menuItemDivider.className = 'menu-item-divider'
@@ -88,6 +94,10 @@ export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, templa
 
       itemIndex += 1
     }
+  }
+
+  if (hasShortcut) {
+    element.classList.add('has-shortcut')
   }
 
   function onSubMenuShow(subMenu: ISubMenu) {

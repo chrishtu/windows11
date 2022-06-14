@@ -1,18 +1,21 @@
 import { ITitleBar } from "../components/window/titlebar";
 
-export interface WindowTitleBar {
+export interface IWindowTitleBarOptions {
   title: string
   icon?: string
   hideIcon?: boolean
   maximized?: boolean
   disableMaximize?: boolean
   autoHide?: boolean
+  content?: any
 }
 
 export interface WindowElement {
   element: HTMLDivElement
   titlebar: ITitleBar
 }
+
+export type WindowEventListeners = 'focus' | 'blur' | 'dragstart' | 'drag' | 'dragend' | 'secondInstance' | 'ontitlebarshow' | 'ontitlebarhide' | 'resizestart' | 'resize' | 'resizeend' | 'minimize' | 'maximize' | 'restore' | 'fullscreen' | 'close'
 
 export interface WindowMethods {
   setContent(content: any): void
@@ -41,15 +44,17 @@ export interface WindowMethods {
   setBounds(bounds: WindowBounds): void
   setSize(size: Size): void
   makeCenter(): void
-  addEventListener(name: string, listener: Function): void
-  executeListeners(name: string, args?: any): void
+  addEventListener(name: WindowEventListeners, listener: Function): void
+  executeListeners(name: WindowEventListeners, args?: any): void
 }
 
-type WindowContent = (win: IWindow) => HTMLDivElement
+type WindowContent = (win: IWindow) => HTMLElement
 
-export interface WindowOptions extends WindowTitleBar, Partial<WindowBounds> {
+export interface IWindowOptions extends IWindowTitleBarOptions, Partial<WindowBounds> {
   args?: string
   name: string
+  titlebarContent?: any
+  titlebarHeight?: number
   content?: WindowContent
   autoHideTitleBar?: boolean
   autoHideDuration?: number

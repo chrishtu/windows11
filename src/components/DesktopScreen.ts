@@ -1,11 +1,11 @@
 import createElement, { appendChild } from "../createElement"
 import { triggerEvent } from "../event"
 import eventNames from "../eventNames"
-import { getState, setState } from "../store"
+import { appStore } from "../store"
 import { round } from "../utils"
 
 function DesktopScreen() {
-  let { nightlight } = getState('nightlight')
+  let { nightlight } = appStore.getState('nightlight')
 
   let screenBrightOverlayElem: HTMLDivElement
   let screenNightlightElem: HTMLDivElement
@@ -38,7 +38,7 @@ function DesktopScreen() {
 
     screenNightlightElem.classList[nightlight ? 'add' : 'remove']('active')
 
-    setState({ nightlight })
+    appStore.setState({ nightlight })
 
     triggerEvent(eventNames.nightLightChange, nightlight)
   }

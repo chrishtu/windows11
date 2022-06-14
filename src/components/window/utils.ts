@@ -12,6 +12,8 @@ export function dragElement(elmnt: HTMLElement, dragTrigger: HTMLElement, events
     elmnt.onmousedown = dragMouseDown;
   }
 
+  let isDrag = false
+
   function dragMouseDown(e: MouseEvent) {
     if (e.button !== 0) return;
 
@@ -36,6 +38,8 @@ export function dragElement(elmnt: HTMLElement, dragTrigger: HTMLElement, events
     let deltaX = elmnt.offsetTop - pos2
     let deltaY = elmnt.offsetLeft - pos1
 
+    isDrag = deltaX > 0 || deltaY > 0
+
     elmnt.style.top = deltaX + 'px';
     elmnt.style.left = deltaY + 'px';
 
@@ -48,9 +52,10 @@ export function dragElement(elmnt: HTMLElement, dragTrigger: HTMLElement, events
   }
 
   function closeDragElement() {
-    if (events && typeof events.onDragEnd === 'function') {
+    if (isDrag && events && typeof events.onDragEnd === 'function') {
       events.onDragEnd(elmnt)
     }
+    isDrag = false
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;

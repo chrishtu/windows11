@@ -6,13 +6,13 @@ import { triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { WindowBounds } from "../../interfaces/window";
 import { ProcessInfo, startProcess } from "../../proceduce";
-import { getState, setState } from "../../store";
+import { appStore } from "../../store";
 import { getExt, getFileName } from "../../utils";
 import { setBackgroundImageStyle } from "../../utils/common";
 import { taskbarHeight } from "../constant";
 import ContextMenu from "../contextMenu/menu";
 import screenInfo from "../screenInfo";
-import { DesktopMenuItemTemplate } from "./contextMenuItems";
+import { getDesktopContextMenuItems } from "./contextMenuItems";
 
 interface Desktop {
   element: HTMLDivElement
@@ -20,6 +20,7 @@ interface Desktop {
   setBackgroundStyle(style: string): void
   showShape(position: string, winBound: WindowBounds): void
   removeShape(): void
+  showDesktopIcons(show: boolean): void
 }
 
 function DesktopItems() {
@@ -194,22 +195,39 @@ function DesktopItems() {
     selectedItems = []
   }
 
+  function setShowDesktopIcons(show: boolean) {
+    desktopItemsElem.classList.toggle('hidden', !show)
+  }
+
+  function toggleDesktopIcons() {
+    const { showDesktopIcons } = appStore.getState('showDesktopIcons')
+
+    setShowDesktopIcons(!showDesktopIcons)
+    appStore.setState({ showDesktopIcons: !showDesktopIcons })
+  }
+
   return {
     element: desktopItemsElem,
     selectItems,
     getItems,
-    removeSelection
+    removeSelection,
+    setShowDesktopIcons,
+    toggleDesktopIcons
   }
 }
 
-function onDesktopContextMenu(e: MouseEvent) {
-  e.preventDefault()
-
-  ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, DesktopMenuItemTemplate)
-}
-
 function Desktop(): Desktop {
+  const { backgroundImageStyle, showDesktopIcons } = appStore.getState(['backgroundImageStyle', 'showDesktopIcons'])
+
   const desktopItems = DesktopItems()
+
+  function onDesktopContextMenu(e: MouseEvent) {
+    e.preventDefault()
+
+    ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement, getDesktopContextMenuItems({
+      onShowDesktopIconsClick: desktopItems.toggleDesktopIcons
+    }))
+  }
 
   let shapeElem = createElement('div', {
     className: 'desktop-shape-presentation'
@@ -236,6 +254,10 @@ function Desktop(): Desktop {
   let firstMouseDownPos: { x: number, y: number } = null
 
   function onmousedown(e: MouseEvent) {
+    const state = appStore.getState('showDesktopIcons')
+
+    if (!state.showDesktopIcons) return
+
     if (!e.shiftKey) {
       desktopItems.removeSelection()
     }
@@ -302,8 +324,6 @@ function Desktop(): Desktop {
   let showTimeout: NodeJS.Timeout
   let isShow = false
 
-  const { backgroundImageStyle } = getState('backgroundImageStyle')
-
   setBackgroundStyle(backgroundImageStyle)
 
   appendChild(document.body, desktop)
@@ -311,6 +331,8 @@ function Desktop(): Desktop {
 
   setTimeout(() => {
     appendChild(desktop, desktopItems.element)
+
+    desktopItems.setShowDesktopIcons(showDesktopIcons)
   }, 500)
 
   function setBackgroundImage(imageInfo: IWallpaerImageInfo, isTemp?: boolean) {
@@ -323,7 +345,7 @@ function Desktop(): Desktop {
     image.src = imageInfo.path
 
     if (!isTemp) {
-      setState({ backgroundImage: imageInfo })
+      appStore.setState({ backgroundImage: imageInfo })
     }
   }
 
@@ -475,7 +497,8 @@ function Desktop(): Desktop {
     setBackgroundImage,
     setBackgroundStyle,
     showShape,
-    removeShape
+    removeShape,
+    showDesktopIcons: desktopItems.setShowDesktopIcons,
   }
 }
 

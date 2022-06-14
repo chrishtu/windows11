@@ -1,13 +1,13 @@
 import createElement from "../../../../createElement";
 import { listenEvent } from "../../../../event";
 import eventNames from "../../../../eventNames";
-import { getState } from "../../../../store";
+import { appStore } from "../../../../store";
 import { getThumbnailFromImage, settingsInfo, SystemNavItemInfo } from "../../common";
 import { SettingHelp } from "../settingHelp";
 import SettingNav, { SettingNavCallback } from "./settingNav";
 
 function SettingSystemDesktop() {
-  const { backgroundImage } = getState('backgroundImage')
+  const { backgroundImage } = appStore.getState('backgroundImage')
 
   let img: string
 

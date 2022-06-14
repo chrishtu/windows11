@@ -1,4 +1,5 @@
 import createElement from "../../createElement"
+import { isNotNullOrUndifined } from "../../utils/common"
 import { KEYS } from "../../utils/keys"
 import { chevronDownIcon, chevronUpIcon } from "./icons"
 import { IBound, IContextMenu, IMenuItem, ISubMenu, ITemplate } from "./interfaces"
@@ -13,7 +14,7 @@ declare global {
   }
 }
 
-export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, template: Array<ITemplate> = [], autoFocus = false, onClose?: Function) {
+export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, template: Array<ITemplate> = [], autoFocus = false, onClose?: Function, focusToTriggerElement = true) {
   if (window.lastContextMenu) {
     window.lastContextMenu.close()
   }
@@ -22,6 +23,8 @@ export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, 
 
   const windowWidth = window.innerWidth
   const windowHeight = window.innerHeight
+
+  let hasShortcut = false
 
   let element: HTMLDivElement
 
@@ -159,6 +162,10 @@ export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, 
   for (let index = 0; index < templateLen; index++) {
     const currentItem = template[index]
 
+    if (!hasShortcut && isNotNullOrUndifined(currentItem.shortcut)) {
+      hasShortcut = true
+    }
+
     if (currentItem.divider) {
       let menuItemDivider = createElement('div', {
         className: 'menu-item-divider'
@@ -181,6 +188,10 @@ export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, 
 
       itemIndex += 1
     }
+  }
+
+  if (hasShortcut) {
+    element.classList.add('has-shortcut')
   }
 
   setTimeout(() => {
@@ -247,9 +258,11 @@ export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, 
 
     element.remove()
 
-    setTimeout(() => {
+    if (focusToTriggerElement) {
       triggerElement.focus()
-    }, 0)
+    }
+
+    window.lastContextMenu = null
 
     onClose && onClose()
   }

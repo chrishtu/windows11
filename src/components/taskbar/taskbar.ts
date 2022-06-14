@@ -142,6 +142,12 @@ function TaskbarAppItems() {
           onRemove: onAppItemInstanceRemove
         }),
         pinned: true
+      },
+      {
+        name: 'calculator', item: TaskbarAppItem(AppInfo.calculator, {
+          onRemove: onAppItemInstanceRemove
+        }),
+        pinned: true
       }
     ]
   } else {
