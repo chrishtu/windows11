@@ -554,6 +554,11 @@ html:not(.dark) .setting-sidebar {
   --active-bg-color: rgba(255, 255, 255, .8);
 }
 
+html:not(.dark, .glass) .setting-sidebar {
+  --hover-bg-color: rgba(220, 220, 220, .6);
+  --active-bg-color: rgba(192, 192, 192, .6);
+}
+
 html .window.focus {
   --titlebar-text-color: #000;
   --window-button-icon-color: #000;

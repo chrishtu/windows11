@@ -30,9 +30,7 @@ const NotePad = (appInfo: IAppInfo, args?: any) => {
     }
 
     win.addEventListener('focus', () => {
-      setTimeout(() => {
-        notePadElem.focus()
-      }, 0)
+      notePadElem.focus()
     })
 
     return notePadElem
