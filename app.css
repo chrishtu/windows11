@@ -571,6 +571,11 @@ html.glass .settings-screen-preview-taskbar {
   overflow-x: auto;
   overflow-y: hidden;
   text-align: right;
+  cursor: default;
+}
+
+.calculator-display-result div {
+  user-select: text;
 }
 
 .calculator-buttons,
