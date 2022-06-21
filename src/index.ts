@@ -8,7 +8,7 @@ import { ProcessInfo } from "./proceduce";
 import { FileMapping } from "./apps/fileMapping";
 import eventNames from "./eventNames";
 import DesktopScreen from "./components/DesktopScreen";
-import { enableDarkTheme, isNotNullOrUndifined, setTransparencyEffect } from "./utils/common";
+import { enableDarkTheme, isNotNullOrUndifined, setBorder, setRoundedCorner, setTransparencyEffect } from "./utils/common";
 import { taskbarHeight } from "./components/constant";
 
 if (isWebkit) {
@@ -21,7 +21,7 @@ document.addEventListener('contextmenu', e => {
   e.preventDefault()
 })
 
-const state = appStore.getState(['darktheme', 'transparency', 'backgroundImage', 'brightness', 'nightlight'])
+const state = appStore.getStates()
 
 if (state.darktheme) {
   enableDarkTheme(state.darktheme)
@@ -42,6 +42,10 @@ if (isNotNullOrUndifined(state.brightness)) {
 if (state.nightlight) {
   DesktopScreen.setNightLight(state.nightlight)
 }
+
+setRoundedCorner(state.roundedCorner)
+
+setBorder(state.useBorder)
 
 function createWindow(appName: string, args?: any) {
   const appInfo = AppInfo[appName]

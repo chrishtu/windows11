@@ -5,7 +5,7 @@ import { chevronDownIcon, chevronUpIcon } from "./icons"
 import { IBound, IContextMenu, IMenuItem, ISubMenu, ITemplate } from "./interfaces"
 import MenuItem from "./menuItem"
 import SubMenu from "./subMenu"
-import hoverHold from "./utils"
+import hoverHold, { menuPadding } from "./utils"
 
 declare global {
   interface Window {
@@ -214,11 +214,11 @@ export default function ContextMenu(bound: IBound, triggerElement: HTMLElement, 
   }
 
   if (position.top + currentBound.height > windowHeight) {
-    position.top = windowHeight - currentBound.height - 5
+    position.top = windowHeight - currentBound.height - menuPadding / 2
   }
 
   if (innerBound.height > windowHeight) {
-    position.top = 10
+    position.top = menuPadding
     element.style.height = (windowHeight - 20) + 'px'
   }
 

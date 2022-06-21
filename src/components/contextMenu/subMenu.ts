@@ -3,7 +3,7 @@ import { KEYS } from "../../utils/keys"
 import { chevronDownIcon, chevronUpIcon } from "./icons"
 import { IMenuItem, ISubMenu, ITemplate } from "./interfaces"
 import MenuItem from "./menuItem"
-import hoverHold from "./utils"
+import hoverHold, { menuPadding } from "./utils"
 
 export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, template: Array<ITemplate>, onItemClick: (item: ITemplate) => void, onShow: (instance: ISubMenu) => void): ISubMenu {
   const templateLen = template.length
@@ -189,7 +189,7 @@ export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, templa
     const parentBound: DOMRect = parent.getBoundingClientRect()
     const menuItemBound: DOMRect = menuItem.element.getBoundingClientRect()
 
-    let positionLeft = parentBound.left + parentBound.width - 4,
+    let positionLeft = parentBound.left + parentBound.width - menuPadding,
       positionTop = menuItemBound.top - 1
 
     let currentBound = element.getBoundingClientRect()
@@ -201,18 +201,18 @@ export default function SubMenu(parent: HTMLElement, menuItem: IMenuItem, templa
     let innerBound = elementInner.getBoundingClientRect()
 
     if (parentBound.left + parentBound.width + currentBound.width > windowWidth) {
-      positionLeft = parentBound.left - currentBound.width + 4
+      positionLeft = parentBound.left - currentBound.width + menuPadding
     }
 
     if (positionTop + currentBound.height >= windowHeight) {
-      positionTop = windowHeight - currentBound.height - 5
+      positionTop = windowHeight - currentBound.height - menuPadding / 2
     }
     else {
-      positionTop -= 5
+      positionTop -= menuPadding
     }
 
     if (innerBound.height >= windowHeight) {
-      positionTop = 10
+      positionTop = menuPadding
       element.style.height = (windowHeight - 20) + 'px'
     }
 

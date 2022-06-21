@@ -180,7 +180,8 @@ const Photos = (appInfo: IAppInfo, _args?: any) => {
     singleInstance: true,
     center: true,
     autoHideTitleBar: true,
-    content: photos
+    content: photos,
+    noBorder: true
   })
 }
 

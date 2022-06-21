@@ -188,6 +188,10 @@ export default function Window(options: IWindowOptions) {
 
   let className = ''
 
+  if (options.noBorder) {
+    className += ' no-border'
+  }
+
   let windowContentClassName = 'window-content'
 
   if (options.fluidContent) {

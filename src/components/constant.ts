@@ -8,6 +8,7 @@ export const longMonthNames = ["January", "February", "March", "April", "May", "
 
 export const titlebarHeight = 29
 export const taskbarHeight = 40
+export const roundedCorner = 5
 
 export const userProfileImage = 'imgs/user.gif'
 

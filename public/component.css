@@ -4,9 +4,9 @@
   /* background-color: #f2f2f3; */
   background-color: var(--window-background);
   background-clip: padding-box;
-  border-radius: 3px;
+  border-radius: var(--box-border-radius);
   border: 1px inset rgb(0, 0, 10, .1);
-  padding: 5px 0;
+  padding: 10px;
   box-shadow: 6px 6px 12px 0px rgba(0, 0, 0, .3);
   z-index: 1000000000;
   user-select: none;
@@ -47,12 +47,13 @@ html.glass .sub-menu::after {
 
 .menu-item {
   position: relative;
-  height: 25px;
+  height: 28px;
   white-space: nowrap;
   cursor: default;
   line-height: 0;
   display: flex;
   align-items: center;
+  border-radius: var(--box-border-radius);
 }
 
 .menu-item.disabled {
@@ -77,8 +78,8 @@ html.glass .sub-menu::after {
 	background-color: rgb(217, 229, 255);
 } */
 
-.menu-item.active,
-.menu-item:focus {
+.menu-item.active:not(.disabled),
+.menu-item:focus:not(.disabled) {
   background-color: var(--hover-bg-color);
 }
 
@@ -94,8 +95,11 @@ html.glass .sub-menu::after {
   background-position: 50% 50%;
 }
 
+.menu-item-icon svg.svg-stroke {
+  stroke: var(--window-icon-color);
+}
+
 .menu-item.checked .menu-item-icon {
-  background-color: hsl(206, 60%, 80%);
   font-weight: bold;
   font-size: 12px;
 }
@@ -142,11 +146,16 @@ html.glass .sub-menu::after {
 .menu-item-arrow {
   flex-grow: 1;
   flex-shrink: 0;
-  width: 20px;
+  width: 26px;
   height: 100%;
   font-size: 12px;
   display: flex;
   align-items: center;
+}
+
+.menu-item-arrow svg {
+  width: 16px;
+  height: 16px;
 }
 
 .sub-menu {

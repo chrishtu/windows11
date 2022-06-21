@@ -63,7 +63,9 @@ const defaultAppState: IState = {
     DefaultLightTheme,
     DefaultDarkTheme
   ],
-  currentThemeIndex: 0
+  currentThemeIndex: 0,
+  roundedCorner: true,
+  useBorder: false,
 }
 
 export const appStore = createStore('preferences', defaultAppState)

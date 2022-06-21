@@ -1,4 +1,5 @@
 import { KEYS } from "../../utils/keys"
+import { chevronRightIcon } from "../icons/icons"
 import { checkIcon } from "./icons"
 import { IMenuItem, IMenuItemEvents, ITemplate } from "./interfaces"
 
@@ -60,8 +61,8 @@ export default function MenuItem(item: ITemplate, itemIndex: number, events: IMe
 
   if (hasChildren) {
     let menuItemArrow = document.createElement('div')
-    menuItemArrow.className = 'menu-item-arrow'
-    menuItemArrow.textContent = '▶'
+    menuItemArrow.className = 'menu-item-arrow flex items-center'
+    menuItemArrow.innerHTML = chevronRightIcon
 
     element.appendChild(menuItemArrow)
   }

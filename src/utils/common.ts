@@ -93,6 +93,13 @@ export function setBackgroundImageStyle(element: HTMLElement, style: string) {
     default:
       element.style.backgroundSize = 'cover'
       break
-
   }
+}
+
+export function setRoundedCorner(checked: boolean) {
+  document.documentElement.classList.toggle('no-border-radius', !checked)
+}
+
+export function setBorder(useBorder: boolean) {
+  document.documentElement.classList.toggle('use-border', useBorder)
 }

@@ -69,6 +69,7 @@ export interface IWindowOptions extends IWindowTitleBarOptions, Partial<WindowBo
   transprencyContent?: boolean
   fluidContent?: boolean,
   keepAspectRatio?: boolean
+  noBorder?: boolean
 }
 
 export interface Position {

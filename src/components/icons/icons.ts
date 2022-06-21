@@ -87,14 +87,14 @@ export const chevronUpIcon = `
 `
 
 export const chevronRightIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="${iconColor()}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="${iconColor()}" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="svg-stroke">
 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
 <polyline points="9 6 15 12 9 18" />
 </svg>
  `
 
 export const chevronLeftIcon = `
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="${iconColor()}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="${iconColor()}" fill="none" stroke-linecap="round" stroke-linejoin="round" class="svg-stroke">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <polyline points="15 6 9 12 15 18" />
 </svg>

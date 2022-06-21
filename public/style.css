@@ -30,8 +30,10 @@
   --gray-color-6: rgb(242, 242, 247);
   --accent-color: var(--blue-color);
   --nav-item-bg-color: #fafbfc;
+  --window-border-color: rgba(0, 0, 0, .5);
   --box-blur: 20px;
-  --box-border-radius: 5px;
+  --box-border-radius: 6px;
+  --controls-border-radius: 3px;
   --box-drop-shadow: 3px 3px 6px rgba(0, 0, 0, .5);
   --animation-timing-function: cubic-bezier(0.2, 0.59, 0.38, 0.91);
   --scrollbar-color: rgba(0, 0, 0, .5);
@@ -76,6 +78,10 @@
   background-clip: content-box;
   border: 4px solid transparent;
   border-radius: 0.625rem;
+}
+
+html.no-border-radius ::-webkit-scrollbar-thumb {
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-corner {
@@ -643,6 +649,11 @@ html.dark.glass .window.focus {
   --window-background: rgba(0, 0, 0, .6) !important;
 }
 
+html.no-border-radius {
+  --box-border-radius: 0;
+  --controls-border-radius: 0;
+}
+
 .dropdown-box {
   box-shadow: var(--box-drop-shadow) !important;
   border-radius: var(--box-border-radius) !important;
@@ -869,6 +880,14 @@ html.glass .window {
   border-radius: var(--box-border-radius);
 }
 
+.use-border .window:not(.no-border, .window.win-snap, .window.window-maximized) .window-inner {
+  border: 1px solid rgb(0, 0, 0, .3);
+}
+
+.use-border .window:not(.no-border, .window.win-snap, .window.window-maximized).focus .window-inner {
+  border-color: var(--window-border-color);
+}
+
 .window.transparent {
   backdrop-filter: none !important;
   transition: backdrop-filter .3s ease .35s;
@@ -1024,7 +1043,7 @@ button,
   color: var(--button-color);
   background-color: var(--button-bg-color);
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: var(--controls-border-radius);
   font-family: inherit;
   line-height: 1.7;
   font-size: inherit;
@@ -1107,7 +1126,7 @@ html.glass .taskbar {
   position: relative;
   width: 36px;
   height: 36px;
-  border-radius: 5px;
+  border-radius: var(--box-border-radius);
   margin: 0 3px;
   transition: background-color .15s var(--animation-timing-function);
 }
@@ -1266,6 +1285,10 @@ html.glass .taskbar {
   z-index: 100001;
 }
 
+.use-border .popup {
+  border: 1px solid var(--window-border-color);
+}
+
 .popup.hidden {
   visibility: hidden;
 }
@@ -1362,7 +1385,7 @@ html.glass .taskbar {
 .start-menu-button {
   margin-left: auto;
   height: 18px;
-  border-radius: 3px;
+  border-radius: var(--controls-border-radius);
   background-color: var(--button-bg-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
   padding-left: 10px;

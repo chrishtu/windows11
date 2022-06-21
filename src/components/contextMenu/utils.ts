@@ -22,3 +22,5 @@ export default function hoverHold(elem: Node, cb: () => void) {
     if (typeof cb === 'function') cb()
   }
 }
+
+export const menuPadding = 10
