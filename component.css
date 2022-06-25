@@ -202,3 +202,13 @@ html.glass .sub-menu::after {
   right: 0;
   margin: auto;
 }
+
+.drag-item {
+  position: fixed !important;
+  z-index: 10000001 !important;
+  pointer-events: none !important;
+}
+
+.drag-item * {
+  color: var(--primary-text-color);
+}
