@@ -1,7 +1,7 @@
 import Window from "../components/window/window";
 import createElement from "../createElement";
 import { IWindow } from "../interfaces/window";
-import { getFileName, readFile } from "../utils";
+import { getFileExt, getFileName, readFile } from "../utils";
 import { IAppInfo } from "./appInfo";
 
 const NotePad = (appInfo: IAppInfo, args?: any) => {
@@ -31,6 +31,16 @@ const NotePad = (appInfo: IAppInfo, args?: any) => {
 
     win.addEventListener('focus', () => {
       notePadElem.focus()
+    })
+
+    win.addEventListener('customdrop', (e: any) => {
+      if (e?.type && e.type === 'file' && getFileExt(e.args) === 'txt') {
+        readFile(e.args, text => {
+          win.setTitle(getFileName(e.args) + ' - NotePad')
+          notePadElem.value = text
+          win.focus()
+        })
+      }
     })
 
     return notePadElem

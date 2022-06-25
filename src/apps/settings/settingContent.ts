@@ -1,5 +1,6 @@
 import { ISettingContentMapIndex } from "./common"
 import Background from "./contents/personalization/childrens/background"
+import Colors from "./contents/personalization/childrens/colors"
 import Personalization from "./contents/personalization/personalization"
 import Display from "./contents/system/childrens/display"
 import System from "./contents/system/system"
@@ -38,7 +39,7 @@ const SettingContentMap: ISettingContentMapIndex = {
         content: Background
       },
       colors: {
-        content: TestContent
+        content: Colors
       },
       lockScreen: {
         content: TestContent

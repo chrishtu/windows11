@@ -85,3 +85,7 @@ export function removeChildren(element: Node) {
     child = element.firstChild
   }
 }
+
+export interface IDropElement extends Omit<HTMLElement, 'addEventListener'> {
+  addEventListener(type: string, listener: (e: MouseEvent | PointerEvent) => void, useCapture?: boolean): void;
+}

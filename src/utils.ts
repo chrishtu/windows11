@@ -25,8 +25,14 @@ type FileCallback = (text: string) => void
 export function readFile(path: string, cb: FileCallback) {
   const req = new XMLHttpRequest()
   req.onreadystatechange = () => {
-    if (req.readyState === 4)
+    if (req.readyState === 4) {
       cb(req.responseText)
+    } else {
+      cb('')
+    }
+  }
+  req.onerror = () => {
+    cb('')
   }
   req.open('get', path)
   req.send()
@@ -34,6 +40,10 @@ export function readFile(path: string, cb: FileCallback) {
 
 export function getFileName(path: string) {
   return path.substring(path.lastIndexOf('/') + 1, path.length)
+}
+
+export function getFileExt(path: string) {
+  return path.substring(path.lastIndexOf('.') + 1, path.length)
 }
 
 export function debounce(func: Function, delay: number) {

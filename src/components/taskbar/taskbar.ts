@@ -287,7 +287,8 @@ function _Taskbar() {
     }
   },
     createElement('div', {
-      className: 'taskbar-innner flex h-full'
+      className: 'taskbar-innner flex h-full',
+      oncontextmenu: onTaskbarContextMenu
     },
       [
         createElement('div', {
@@ -359,6 +360,20 @@ function _Taskbar() {
       ]
     )
   )
+
+  function onTaskbarContextMenu(e: MouseEvent) {
+    ContextMenu(
+      { top: e.y, left: e.x },
+      e.currentTarget as HTMLElement,
+      [
+        {
+          text: 'Taskbar Settings', onClick: () => {
+            createWindow('settings', 'personalization/taskbar')
+          }
+        }
+      ]
+    )
+  }
 
   appendChild(document.body, taskbar)
 

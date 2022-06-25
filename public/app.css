@@ -489,7 +489,7 @@ html.glass .settings-screen-preview-taskbar {
 }
 
 .action-center-button.active .action-center-button-icon {
-  background: var(--blue-color);
+  background: var(--accent-color);
 }
 
 .action-center-button.active svg:not(.no-stroke) {

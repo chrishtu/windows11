@@ -1,4 +1,4 @@
-import createElement, { appendChild, removeChildren } from "../../createElement";
+import createElement, { appendChild, IDropElement, removeChildren } from "../../createElement";
 import { Cordinate, IWindow, Position, Size, WindowBounds, IWindowOptions, WindowEventListeners } from "../../interfaces/window";
 import { generateID } from "../../utils";
 import TitleBar from "./titlebar";
@@ -214,7 +214,7 @@ export default function Window(options: IWindowOptions) {
     resizeTopRightV: HTMLElement,
     resizeTopRightH: HTMLElement
 
-  let _window: HTMLDivElement
+  let _window: IDropElement
   let touchEdge: ITouchIndex = {
     top: false,
     left: false,
@@ -346,6 +346,10 @@ export default function Window(options: IWindowOptions) {
     ]
   )
 
+  _window.addEventListener('customdrop', (e: MouseEvent) => {
+    executeListeners('customdrop', e.detail)
+  }, false)
+
   if (typeof options.titlebarHeight === 'number' && options.titlebarHeight > 0) {
     _window.style.setProperty('--titlebar-height', options.titlebarHeight + 'px')
   }
@@ -359,6 +363,8 @@ export default function Window(options: IWindowOptions) {
     _window.addEventListener('mouseout', onmouseout, false)
     _window.addEventListener('mousemove', onmousemove, false)
   }
+
+  _window.addEventListener('mousedown', onWindowMouseDown, false)
 
   function onmouseover() {
     if (mouseTimeout) clearTimeout(mouseTimeout)
@@ -437,7 +443,7 @@ export default function Window(options: IWindowOptions) {
   }
 
   if (!options.disableResize) {
-    resizeHanders = _resizeElems(_window, {
+    resizeHanders = _resizeElems(_window as HTMLElement, {
       onResizeStart: () => executeListeners('resizestart'),
       onResize: () => executeListeners('resize'),
       onResizeEnd
@@ -449,11 +455,13 @@ export default function Window(options: IWindowOptions) {
   function onDocumentMouseDown(e: MouseEvent) {
     const target = e.target as Node
 
-    if (_window.contains(target)) {
-      focus()
-    } else {
+    if (!_window.contains(target)) {
       blur()
     }
+  }
+
+  function onWindowMouseDown() {
+    focus()
   }
 
   function onMinimizeButtonClick() {
@@ -482,7 +490,7 @@ export default function Window(options: IWindowOptions) {
     toggleMaximize()
   }
 
-  dragElement(_window, titlebar.titlebarDragElement, {
+  dragElement(_window as HTMLElement, titlebar.titlebarDragElement, {
     onDragStart: () => executeListeners('dragstart'),
     onDrag,
     onDragEnd
@@ -818,9 +826,8 @@ export default function Window(options: IWindowOptions) {
       focused = true
     }
 
-    //For other purpose
     setTimeout(() => {
-      executeListeners('focus')
+      executeListeners('focus', focused)
     }, 0)
   }
 
@@ -1001,7 +1008,7 @@ export default function Window(options: IWindowOptions) {
     id,
     icon: options.icon,
     name: options.name,
-    element: _window,
+    element: _window as HTMLElement,
     setContent,
     show,
     hide,

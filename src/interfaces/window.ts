@@ -11,11 +11,11 @@ export interface IWindowTitleBarOptions {
 }
 
 export interface WindowElement {
-  element: HTMLDivElement
+  element: HTMLElement
   titlebar: ITitleBar
 }
 
-export type WindowEventListeners = 'focus' | 'blur' | 'dragstart' | 'drag' | 'dragend' | 'secondInstance' | 'ontitlebarshow' | 'ontitlebarhide' | 'resizestart' | 'resize' | 'resizeend' | 'minimize' | 'maximize' | 'restore' | 'fullscreen' | 'close'
+export type WindowEventListeners = 'focus' | 'blur' | 'dragstart' | 'drag' | 'dragend' | 'secondInstance' | 'ontitlebarshow' | 'ontitlebarhide' | 'resizestart' | 'resize' | 'resizeend' | 'minimize' | 'maximize' | 'restore' | 'fullscreen' | 'close' | 'draganddropstart' | 'draganddrop' | 'customdrop'
 
 export interface WindowMethods {
   setContent(content: any): void

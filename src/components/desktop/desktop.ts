@@ -8,7 +8,7 @@ import { WindowBounds } from "../../interfaces/window";
 import { ProcessInfo, startProcess } from "../../proceduce";
 import { appStore } from "../../store";
 import { getExt, getFileName } from "../../utils";
-import { setBackgroundImageStyle } from "../../utils/common";
+import { dragItem, setBackgroundImageStyle } from "../../utils/common";
 import { taskbarHeight } from "../constant";
 import ContextMenu from "../contextMenu/menu";
 import screenInfo from "../screenInfo";
@@ -76,17 +76,14 @@ function DesktopItems() {
       type: "file",
       args: 'documents/about.txt'
     },
+    {
+      type: "file",
+      args: 'documents/My document.txt'
+    },
   ]
 
   function onDesktopItemDblClick(appItem: ProcessInfo) {
     startProcess(appItem)
-  }
-
-  function onmousedown(_e: MouseEvent) {
-    // const target = e.currentTarget as Element
-    // const isSelected = selectedItems.includes(target)
-
-
   }
 
   const desktopItemsElem = createElement('div', {
@@ -125,7 +122,7 @@ function DesktopItems() {
         itemContent = getFileName(currentAppInfo.args)
       }
 
-      return createElement('div', {
+      const itemElem = createElement('div', {
         key: 'd-i' + index,
         className: 'desktop-app-item',
         ondblclick: onDesktopItemDblClick.bind(null, currentAppInfo),
@@ -151,6 +148,10 @@ function DesktopItems() {
           )
         ]
       )
+
+      dragItem(itemElem, currentAppInfo)
+
+      return itemElem
     })
   )
 

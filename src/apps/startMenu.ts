@@ -1,7 +1,9 @@
+import ContextMenu from "../components/contextMenu/menu";
 import { chevronLeftIcon, chevronRightIcon, powerIcon, settingIcon } from "../components/icons/icons";
 import Popup from "../components/popup/popup";
 import createElement from "../createElement";
 import { createWindow, startProcess } from "../proceduce";
+import { dragItem } from "../utils/common";
 import { AppInfo, AppInfoGroup, IAppInfo } from "./appInfo";
 
 interface StartMenuOptions {
@@ -163,7 +165,7 @@ function StartMenu(options?: StartMenuOptions) {
       .map(key => {
         const currentApp = AppInfo[key]
 
-        return createElement('div', {
+        const startMenuItem = createElement('div', {
           className: 'start-menu-pinned-apps-item flex flex-col items-center',
           onclick: onItemClick.bind(null, currentApp)
         },
@@ -184,6 +186,10 @@ function StartMenu(options?: StartMenuOptions) {
             )
           ]
         )
+
+        dragItem(startMenuItem, { ...currentApp, type: 'app' })
+
+        return startMenuItem
       })
   }
 
@@ -321,7 +327,16 @@ function StartMenu(options?: StartMenuOptions) {
               [
                 createElement('div', {
                   className: 'start-menu-footer-button start-menu-power',
-                  innerHTML: powerIcon
+                  innerHTML: powerIcon,
+                  onclick: (e: PointerEvent) => {
+                    ContextMenu({ top: e.y, left: e.x }, e.currentTarget as HTMLElement,
+                      [
+                        { text: 'Sleep' },
+                        { text: 'Restart' },
+                        { text: 'Shutdown' }
+                      ]
+                    )
+                  }
                 }),
                 createElement('div', {
                   className: 'start-menu-footer-button',

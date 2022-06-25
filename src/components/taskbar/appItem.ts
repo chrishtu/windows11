@@ -1,4 +1,4 @@
-import createElement from "../../createElement";
+import createElement, { IDropElement } from "../../createElement";
 import { triggerEvent } from "../../event";
 import eventNames from "../../eventNames";
 import { IWindow } from "../../interfaces/window";
@@ -80,7 +80,7 @@ export function TaskbarSystemAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarA
 }
 
 export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItemEvents): ITaskbarAppItem {
-  let appItem: HTMLDivElement
+  let appItem: IDropElement
 
   const instances: Array<AppInfo> = []
 
@@ -99,6 +99,15 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
     triggerEvent(eventNames.closePopup)
 
     if (showTimeout) clearTimeout(showTimeout)
+  }
+
+  props.oncontextmenu = (e: MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+    closeContextMenu()
+    if (typeof events.oncontextmenu === 'function') {
+      events.oncontextmenu(e)
+    }
   }
 
   function showThumbnail() {
@@ -169,6 +178,16 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
     ]
   )
 
+  appItem.addEventListener('customdragover', oncustomdragover, false)
+  appItem.addEventListener('customdrop', oncustomdrop, false)
+
+  function oncustomdragover(_e: MouseEvent) {
+    
+  }
+  function oncustomdrop(_e: MouseEvent) {
+    
+  }
+
   function checkAppOpen() {
     if (instances.length) {
       taskbarAppItemStatusElem.classList.add('active')
@@ -224,7 +243,7 @@ export function TaskbarAppItem(appInfo: TaskBarAppInfo, events?: ITaskbarAppItem
   }
 
   return {
-    element: appItem,
+    element: appItem as HTMLDivElement,
     addInstance,
     removeInstance,
     getInstances,
