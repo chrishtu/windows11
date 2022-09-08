@@ -2,7 +2,7 @@ import { taskbarHeight } from "../components/constant";
 import Window from "../components/window/window";
 import createElement from "../createElement";
 import { IWindow } from "../interfaces/window";
-import { getFileName } from "../utils";
+import { getFileExt, getFileName } from "../utils";
 import { IAppInfo } from "./appInfo";
 
 interface VideoInfo {
@@ -87,6 +87,15 @@ const Photos = (appInfo: IAppInfo, _args?: any) => {
       }
     })
 
+    win.addEventListener('customdrop', (e: any) => {
+      if (e?.type && e.type === 'file' && (getFileExt(e.args) === 'mp4' || getFileExt(e.args) === 'webm' || getFileExt(e.args) === 'mkv')) {
+        videoElem.src = e.args
+        videoElem.play()
+        win.setTitle(getFileName(e.args))
+        win.focus()
+      }
+    })
+
     getVideoInfo(`videos/${vid}`, (videoInfo: VideoInfo) => {
       let size = {
         width: videoInfo.width,
@@ -131,7 +140,7 @@ const Photos = (appInfo: IAppInfo, _args?: any) => {
         videoElem = createElement('video', {
           className: 'w-full h-full',
           src: `videos/${vid}`,
-          controls: true,
+          controls: false,
           style: {
             objectFit: 'cover'
           },
@@ -148,16 +157,33 @@ const Photos = (appInfo: IAppInfo, _args?: any) => {
             }),
             createElement('div', {
               className: 'video-overlay video-overlay-bottom'
+            })
+          ]
+        ),
+        createElement('div', {
+          className: 'video-controls absolute bottom'
+        },
+          [
+            createElement('div', {
+              className: 'video-controls-left'
             }),
-            createElement('button', {
-              onclick: win.toggleFullscreen,
-              className: 'absolute',
-              style: {
-                left: '40px',
-                top: '40px',
-                zIndex: 1
-              }
-            }, 'Toggle fullscreen')
+            createElement('div', {
+              className: 'video-controls-right'
+            },
+              [
+                createElement('button', {
+                  onclick: win.toggleFullscreen,
+                  className: 'absolute',
+                  style: {
+                    left: '40px',
+                    top: '40px',
+                    zIndex: 1
+                  }
+                }, 'Toggle fullscreen')
+
+              ]
+            ),
+
           ]
         )
       ]

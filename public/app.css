@@ -445,6 +445,14 @@ html.glass .settings-screen-preview-taskbar {
   /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .8) 100%); */
 }
 
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+}
+
 /* Action Center */
 
 .action-center {
