@@ -1,7 +1,0 @@
-New Features: Drag&Drop
-
-Drag item "about.txt" to this window to see the change
-
-* Upcoming features
-- Themes
-- Feature to pin and reorder taskbar pinned items
