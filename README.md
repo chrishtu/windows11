@@ -1,71 +1,34 @@
-# Introduction
+[![Windows 11](resources/images/introduction/win11.png)](https://chrishtu.github.io/windows11)
 
- - Experience Windows 11 UI on browser
- - Just using DOM API with TypeScript and CSS
- - Chrome or Chromium with lastest version is totaly recommended
- 
-## Start Menu
+# Experence Windows 11 UI on web
+This project is made to show Windows 11 UI on web and not Microsoft’s Operating System
 
-> Light Theme
+**Live demo** [W11 UI](https://chrishtu.github.io/windows11)
 
-![Start menu](resources/images/introduction/win11-startmenu-light.png)
+## Features
+- Personalization (Themes, Background, Color,...)
+- Window Tabs (File Explorer, Notepad)
+- Interact with files (Drag files or folders from "Local Device" to this app [Desktop Screen, File Explorer Pannel])
 
-![Start menu](resources/images/introduction/win11-startmenu-light-glass.png)
+## Tech
+- [Typescript](https://www.typescriptlang.org) - JavaScript With Syntax For Types
+- HTML
+- CSS
 
-> Dark Theme
+## Disclamer
+Please don't save or provide any sensitive infomation into this app
 
-![Start menu](resources/images/introduction/win11-startmenu-dark.png)
+## Troubleshoot
 
-![Start menu](resources/images/introduction/win11-startmenu-dark-glass.png)
+| Plobblem | Solution |
+| ------ | ------ |
+| This app take large amount of disk space | Delete all large file in the app or go to Settings app and navigate to System/Recovery then click "Reset" button
+| Blur not working | Upgrade or switch to difference mordern web browser |
 
-## In App UI
+## Credits
+Photos & Videos
+- [Unsplash](https://unsplash.com)
+- [Pexels](https://www.pexels.com)
 
-![App UI Light Theme](resources/images/introduction/win11-light.png)
-
-![App UI Light Blur Theme](resources/images/introduction/win11-light-glass.png)
-
-![App UI DarkTheme](resources/images/introduction/win11-dark.png)
-
-![App UI Dark Blur Theme](resources/images/introduction/win11-dark-glass.png)
-
-## Action Center
-
-![Action Center Light Theme](resources/images/introduction/win11-action-center-light.png)
-
-![Action Center Light Blur Theme](resources/images/introduction/win11-action-center-light-glass.png)
-
-![Action Center Dark Theme](resources/images/introduction/win11-action-center-dark.png)
-
-![Action Center Dark Blur Theme](resources/images/introduction/win11-action-center-dark-glass.png)
-
-## ContextMenu
-
-![Context Menu Dark Blur Theme](resources/images/introduction/win11-contextmenu-light.png)
-
-![Context Menu Dark Blur Theme](resources/images/introduction/win11-contextmenu-light-glass.png)
-
-![Context Menu Dark Blur Theme](resources/images/introduction/win11-contextmenu-dark.png)
-
-![Context Menu Dark Blur Theme](resources/images/introduction/win11-contextmenu-dark-glass.png)
-
-![Context Menu Window](resources/images/introduction/win11-contextmenu-window.png)
-
-## Night light
-
-![Night light](resources/images/introduction/win11-nightlight.png)
-
-![Night light](resources/images/introduction/win11-nightlight-dark.png)
-
-## Snap
-
-![Snap](resources/images/introduction/win11-snap.png)
-
-
-# Known issues
-
- - **Blur not working** 
- - **Scrollbar UI incorrect as expect**
- 
- How to resolve
-
-> Run this project on Chrome
+## License
+MIT
