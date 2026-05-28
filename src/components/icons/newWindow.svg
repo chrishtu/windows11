@@ -1,4 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <path
-    d="M 3 3 L 11 3 L 11 11 L 3 11 L 3 3 z M 11 13 L 11 21 L 3 21 V 13 L 11 13 z M 13 3 L 21 3 V 11 L 13 11 V 3 z M 21 13 L 21 21 L 13 21 L 13 13 L 21 13 z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <!-- Soft Drop Shadow Filter -->
+    <filter id="taskbar-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.2" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+
+    <!-- Premium Fluent Gradients -->
+    <linearGradient id="win11-blue-top-left" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#4da2ff"/>
+      <stop offset="100%" stop-color="#0066e6"/>
+    </linearGradient>
+    <linearGradient id="win11-blue-top-right" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#3399ff"/>
+      <stop offset="100%" stop-color="#0052cc"/>
+    </linearGradient>
+    <linearGradient id="win11-blue-bottom-left" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#1a8cff"/>
+      <stop offset="100%" stop-color="#003db3"/>
+    </linearGradient>
+    <linearGradient id="win11-blue-bottom-right" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#0073e6"/>
+      <stop offset="100%" stop-color="#002b80"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Main Icon Grid with Rounded Corners and Lighting Shadows -->
+  <g filter="url(#taskbar-glow)">
+    <!-- Top Left Tile -->
+    <rect x="5" y="5" width="18" height="18" rx="2.5" fill="url(#win11-blue-top-left)"/>
+    <!-- Top Right Tile -->
+    <rect x="25" y="5" width="18" height="18" rx="2.5" fill="url(#win11-blue-top-right)"/>
+    <!-- Bottom Left Tile -->
+    <rect x="5" y="25" width="18" height="18" rx="2.5" fill="url(#win11-blue-bottom-left)"/>
+    <!-- Bottom Right Tile -->
+    <rect x="25" y="25" width="18" height="18" rx="2.5" fill="url(#win11-blue-bottom-right)"/>
+  </g>
 </svg>
